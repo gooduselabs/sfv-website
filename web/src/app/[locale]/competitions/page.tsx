@@ -16,14 +16,14 @@ export default async function Competitions({ params, searchParams }: { params: P
     items('disciplines', { fields: ['slug', 'translations.*'], sort: ['sort'] }),
   ]);
   const cities = [...new Set(all.map((c) => c.city))].sort();
-  const list = all.filter((c) => (!sp.discipline || c.discipline?.slug === sp.discipline) && (!sp.status || c.status === sp.status) && (!sp.city || c.city === sp.city) && (!sp.age || (c.age_groups ?? []).includes(sp.age)));
+  const list = all.filter((c) => (!sp.level || c.level === sp.level) && (!sp.discipline || c.discipline?.slug === sp.discipline) && (!sp.status || c.status === sp.status) && (!sp.city || c.city === sp.city) && (!sp.age || (c.age_groups ?? []).includes(sp.age)));
   const upcoming = list.filter((c) => c.status !== 'finished');
   const past = list.filter((c) => c.status === 'finished').reverse();
-  const extra = { discipline: sp.discipline, status: sp.status, city: sp.city, age: sp.age };
+  const extra = { discipline: sp.discipline, status: sp.status, city: sp.city, age: sp.age, level: sp.level };
   return (
     <>
       <PageHeader kicker="Calendar" title={t('title')} sub={t('sub')} />
-      <section className="container-x -mt-6 relative z-10">
+      <section className="container-x mt-6 relative z-10">
         <div className="frost space-y-3 rounded-3xl p-4 shadow-lg shadow-navy-900/5 sm:p-6">
           <Chips base="/competitions" param="discipline" active={sp.discipline} extra={extra} items={[{ value: '', label: tm('all') }, ...discs.map((d) => ({ value: d.slug, label: tr(d, locale).name }))]} />
           <Chips base="/competitions" param="status" active={sp.status} extra={extra} items={[{ value: '', label: tm('status') + ': ' + tm('all') }, ...['upcoming', 'registration_open', 'finished'].map((s) => ({ value: s, label: t(s) }))]} />

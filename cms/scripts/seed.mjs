@@ -38,24 +38,59 @@ for (const [i, [slug, area, gb, vi, en, cover, conf]] of D.entries()) {
       { name: en, summary: `${en} — governed internationally by ${gb}. Placeholder text pending SFV content.`, rules: `<p>Rules follow current ${gb} regulations. <em>(Placeholder – official documents pending.)</em></p>`, events_desc: area === 'ice' ? 'Singles, pairs, 500m – 1500m (sample)' : '200m, 500m, 1000m, relay (sample)' }) });
   disc[slug] = r.id;
 }
-// ---- news categories & news
+// ---- news categories & news (~40 DEMO items)
 const cats = {};
-for (const [slug, vi, en] of [['tin-tuc', 'Tin tức', 'News'], ['thong-bao', 'Thông báo', 'Announcements'], ['doi-tuyen', 'Đội tuyển', 'National team'], ['phong-trao', 'Phong trào', 'Grassroots']]) cats[slug] = (await create('news_categories', { slug, translations: T({ name: vi }, { name: en }) })).id;
+for (const [slug, vi, en] of [['hoat-dong', 'Hoạt động SFV', 'SFV activities'], ['thong-bao', 'Thông báo', 'Announcements'], ['truot-bang', 'Trượt băng', 'Ice skating'], ['roller', 'Roller', 'Roller'], ['quoc-te', 'Quốc tế', 'International'], ['doi-tuyen', 'Đội tuyển', 'National team'], ['dao-tao', 'Đào tạo', 'Education']]) cats[slug] = (await create('news_categories', { slug, translations: T({ name: vi }, { name: en }) })).id;
 const NEWS = [
-  ['[Demo] Khởi động mùa giải Trượt băng quốc gia 2026–2027', '[Demo] National Ice Skating season 2026–27 kicks off', 'tin-tuc', 'figure-skating', 'figure'],
-  ['[Demo] Thông báo mở đăng ký Giải Vô địch Inline tốc độ toàn quốc', '[Demo] Registration open: National Inline Speed Championships', 'thong-bao', 'inline-speed', 'inline'],
-  ['[Demo] Đội tuyển Short track tập huấn mùa đông', '[Demo] Short track team winter training camp', 'doi-tuyen', 'short-track', 'shorttrack'],
-  ['[Demo] Lớp năng khiếu trượt băng cho trẻ từ 5 tuổi', '[Demo] Talent classes for skaters aged 5+', 'phong-trao', 'figure-skating', 'kids'],
-  ['[Demo] Roller nghệ thuật: thêm nội dung thi đôi', '[Demo] Artistic roller adds pairs events', 'tin-tuc', 'artistic-roller', 'artistic'],
-  ['[Demo] Ván trượt hướng tới hệ thống giải trẻ', '[Demo] Skateboarding towards a youth circuit', 'phong-trao', 'skateboarding', 'skate'],
-  ['[Demo] Tập huấn trọng tài khúc côn cầu', '[Demo] Hockey officials clinic', 'thong-bao', 'ice-hockey', 'hockey'],
-  ['[Demo] Bài viết lên lịch đăng (scheduled)', '[Demo] Scheduled post example', 'tin-tuc', 'speed-skating', 'shorttrack'],
+  ['hoat-dong', null, 'meeting', 'Liên đoàn họp Ban Chấp hành mở rộng, thông qua kế hoạch năm 2027', 'Federation executive board approves 2027 plan'],
+  ['hoat-dong', null, 'meeting', 'Ký kết hợp tác phát triển phong trào trượt băng học đường', 'Partnership signed to develop school skating'],
+  ['hoat-dong', 'figure-skating', 'kids', 'Ngày hội “Cùng trượt băng” thu hút hàng trăm em nhỏ', '“Skate Together” day draws hundreds of children'],
+  ['hoat-dong', 'inline-speed', 'clinic', 'Khảo sát hệ thống sân tập Roller tại các tỉnh phía Nam', 'Survey of roller venues in southern provinces'],
+  ['hoat-dong', null, 'meeting', 'Tổng kết công tác chuyên môn 9 tháng đầu năm', 'Nine-month technical review'],
+  ['hoat-dong', 'skateboarding', 'skate', 'Ra mắt chương trình kết nối các CLB ván trượt', 'Skateboarding club network launched'],
+  ['thong-bao', 'inline-speed', 'inline', 'Thông báo số 1 Giải Inline trẻ toàn quốc 2026', 'Notice no.1 – National Youth Inline Cup 2026'],
+  ['thong-bao', 'artistic-roller', 'artistic', 'Thông báo mở đăng ký Giải Roller nghệ thuật mở rộng 2026', 'Registration open – Artistic Roller Open 2026'],
+  ['thong-bao', 'short-track', 'shorttrack', 'Điều chỉnh lịch thi đấu Giải Short track 2027', 'Schedule change – Short Track Championships 2027'],
+  ['thong-bao', null, 'meeting', 'Thông báo tuyển chọn trọng tài cấp quốc gia', 'Call for national-level officials'],
+  ['thong-bao', null, 'meeting', 'Thông báo đăng ký thẻ phóng viên tác nghiệp các giải 2026', 'Media accreditation for 2026 events'],
+  ['thong-bao', 'figure-skating', 'figure', 'Danh sách VĐV đủ điều kiện dự Cúp Trượt băng nghệ thuật', 'Eligible athletes – Figure Skating Cup'],
+  ['thong-bao', null, 'kids', 'Thông báo lịch nghỉ và lịch làm việc văn phòng Liên đoàn', 'Federation office hours notice'],
+  ['truot-bang', 'figure-skating', 'figure', 'Trượt băng nghệ thuật: thế hệ VĐV nhí tiến bộ rõ rệt', 'Figure skating: young skaters show clear progress'],
+  ['truot-bang', 'short-track', 'shorttrack', 'Short track: các cự ly 500m sôi động tại giải nhóm tuổi', 'Short track: thrilling 500m races at age-group cup'],
+  ['truot-bang', 'figure-skating', 'podium', 'Trao giải Cúp Trượt băng nghệ thuật 2026', 'Awards at the Figure Skating Cup 2026'],
+  ['truot-bang', 'speed-skating', 'shorttrack', 'Trượt băng tốc độ: bài toán sân tập tiêu chuẩn', 'Speed skating: the standard-rink challenge'],
+  ['truot-bang', 'ice-hockey', 'hockey', 'Khúc côn cầu trên băng: giao hữu giữa các đội trẻ', 'Ice hockey: youth friendlies'],
+  ['truot-bang', 'figure-skating', 'kids', 'Lớp năng khiếu trượt băng cho trẻ từ 5 tuổi', 'Talent classes for skaters aged 5+'],
+  ['truot-bang', 'short-track', 'podium', 'Gương mặt trẻ nổi bật mùa giải short track', 'Rising faces of the short-track season'],
+  ['roller', 'inline-speed', 'inline', 'Giải Vô địch Inline tốc độ: nhiều thành tích cá nhân tốt nhất', 'Inline Speed Championships: many personal bests'],
+  ['roller', 'artistic-roller', 'artistic', 'Roller nghệ thuật bổ sung nội dung thi đôi', 'Artistic roller adds pairs events'],
+  ['roller', 'inline-freestyle', 'inline', 'Inline freestyle: slalom tốc độ hút khán giả trẻ', 'Inline freestyle: speed slalom attracts young fans'],
+  ['roller', 'skateboarding', 'skate', 'Ván trượt hướng tới hệ thống giải trẻ', 'Skateboarding towards a youth circuit'],
+  ['roller', 'roller-hockey', 'hockey', 'Khúc côn cầu roller: thành lập nhóm CLB nòng cốt', 'Roller hockey: core club group formed'],
+  ['roller', 'inline-speed', 'clinic', 'Tập huấn kỹ thuật vào cua cho VĐV inline trẻ', 'Cornering clinic for young inline skaters'],
+  ['roller', 'inline-speed', 'podium', 'Lễ trao huy chương Giải Inline tốc độ toàn quốc', 'Medal ceremony – National Inline Speed'],
+  ['quoc-te', 'short-track', 'shorttrack', 'Cập nhật lịch thi đấu quốc tế mùa giải 2026–2027', 'International calendar 2026–27 update'],
+  ['quoc-te', 'inline-speed', 'inline', 'Tham dự hội thảo phát triển Roller khu vực châu Á', 'Attending Asian roller development seminar'],
+  ['quoc-te', 'figure-skating', 'figure', 'Chuyên gia quốc tế chia sẻ phương pháp huấn luyện', 'International expert shares coaching methods'],
+  ['quoc-te', null, 'meeting', 'Làm việc với đoàn công tác liên đoàn bạn', 'Meeting with a visiting federation delegation'],
+  ['quoc-te', 'skateboarding', 'skate', 'Ván trượt và lộ trình hội nhập quốc tế', 'Skateboarding and the international pathway'],
+  ['doi-tuyen', 'short-track', 'shorttrack', 'Đội tuyển Short track tập huấn mùa đông', 'Short track team winter training camp'],
+  ['doi-tuyen', 'inline-speed', 'inline', 'Triệu tập đội tuyển Inline tốc độ chuẩn bị giải khu vực', 'Inline speed squad called up'],
+  ['doi-tuyen', 'figure-skating', 'figure', 'Đội tuyển trẻ trượt băng nghệ thuật kiểm tra trình độ', 'Junior figure team assessment'],
+  ['doi-tuyen', 'short-track', 'podium', 'Ban huấn luyện đội tuyển đặt mục tiêu mùa giải mới', 'Coaches set goals for the new season'],
+  ['dao-tao', null, 'clinic', 'Khai giảng lớp huấn luyện viên cấp 1', 'Level-1 coaching course opens'],
+  ['dao-tao', null, 'meeting', 'Tập huấn trọng tài khúc côn cầu', 'Hockey officials clinic'],
+  ['dao-tao', 'figure-skating', 'kids', 'Bồi dưỡng giáo viên thể chất về trượt băng an toàn', 'Safe-skating training for PE teachers'],
+  ['dao-tao', 'inline-speed', 'clinic', 'Hướng dẫn kỹ năng an toàn cho phụ huynh và VĐV nhí', 'Safety guidance for parents and young skaters'],
+  ['hoat-dong', 'speed-skating', 'shorttrack', 'Bài viết lên lịch đăng (scheduled) – chỉ hiện sau ngày đăng', 'Scheduled post example'],
 ];
-const body = (t) => `<p><strong>Đây là bài viết DEMO</strong> để kiểm tra giao diện. Nội dung không phản ánh sự kiện thật.</p><p>${t}. Liên đoàn khuyến khích các câu lạc bộ, phụ huynh và vận động viên theo dõi thông báo chính thức trên website.</p><h2>Thông tin chính</h2><ul><li>Thời gian: theo lịch thi đấu</li><li>Địa điểm: xem trang giải đấu</li><li>Liên hệ: văn phòng Liên đoàn</li></ul>`;
+const AUTHORS = ['Ban Truyền thông SFV (demo)', 'Phóng viên Demo', 'Văn phòng Liên đoàn (demo)'];
+const body = (t) => `<p><strong>Đây là bài viết DEMO</strong> để kiểm tra giao diện cổng tin. Nội dung không phản ánh sự kiện thật.</p><p>${t}. Liên đoàn khuyến khích các câu lạc bộ, phụ huynh và vận động viên theo dõi thông báo chính thức trên website.</p><h2>Thông tin chính</h2><ul><li>Thời gian: theo lịch thi đấu</li><li>Địa điểm: xem trang giải đấu</li><li>Liên hệ: văn phòng Liên đoàn</li></ul><p>Trong thời gian tới, Liên đoàn sẽ tiếp tục cập nhật các thông tin liên quan. Mọi thắc mắc xin liên hệ Ban Truyền thông.</p>`;
 const bodyEn = (t) => `<p><strong>This is a DEMO article</strong> for layout testing. It does not describe real events.</p><p>${t}. Clubs, parents and athletes are encouraged to follow official notices on this website.</p>`;
-for (const [i, [vi, en, cat, d, cover]] of NEWS.entries()) {
-  const dt = new Date(Date.UTC(2026, 9, 20 - i * 4, 2)); if (i === NEWS.length - 1) dt.setUTCDate(dt.getUTCDate() + 60);
-  await create('news', { status: i === NEWS.length - 1 ? 'scheduled' : 'published', publish_date: dt.toISOString(), slug: `demo-tin-${i + 1}`, category: cats[cat], discipline: disc[d], cover: img[cover], is_announcement: cat === 'thong-bao', featured: i < 3, demo: true, translations: T({ title: vi, excerpt: 'Bài viết mẫu (demo) phục vụ kiểm thử giao diện và quy trình biên tập.', body: body(vi) }, { title: en, excerpt: 'Sample (demo) article for UI and editorial workflow testing.', body: bodyEn(en) }) });
+for (const [i, [cat, d, cover, vi, en]] of NEWS.entries()) {
+  const last = i === NEWS.length - 1;
+  const dt = new Date(Date.UTC(2026, 9, 22, 3 - i * 9)); if (last) dt.setUTCDate(dt.getUTCDate() + 60);
+  await create('news', { status: last ? 'scheduled' : 'published', publish_date: dt.toISOString(), slug: `demo-tin-${i + 1}`, category: cats[cat], discipline: d ? disc[d] : null, cover: img[cover], is_announcement: cat === 'thong-bao', featured: [0, 2, 13, 20, 32].includes(i), breaking: i < 5, author: AUTHORS[i % 3], views: 150 + Math.floor(rnd() * 4800), demo: true, translations: T({ title: '[Demo] ' + vi, excerpt: 'Bài viết mẫu (demo) phục vụ kiểm thử giao diện và quy trình biên tập của cổng tin Liên đoàn.', body: body(vi) }, { title: '[Demo] ' + en, excerpt: 'Sample (demo) article for UI and editorial workflow testing.', body: bodyEn(en) }) });
 }
 // ---- clubs (approx city coordinates; names fictional)
 const CITIES = [['Hà Nội', 21.0278, 105.8342], ['TP. Hồ Chí Minh', 10.7769, 106.7009], ['Đà Nẵng', 16.0544, 108.2022], ['Hải Phòng', 20.8449, 106.6881], ['Cần Thơ', 10.0452, 105.7469], ['Nha Trang', 12.2388, 109.1967], ['Huế', 16.4637, 107.5909], ['Quảng Ninh', 20.9599, 107.0425], ['Bình Dương', 11.3254, 106.477], ['Vũng Tàu', 10.346, 107.0843], ['Thanh Hóa', 19.8067, 105.7852], ['Nghệ An', 18.6796, 105.6813], ['Lâm Đồng', 11.9404, 108.4583], ['Đồng Nai', 10.9574, 106.8427]];
@@ -135,7 +170,7 @@ await create('pages', { slug: 'lien-he', status: 'published', sort: 1, translati
 for (const [i, [cat, vi, en]] of [['regulation', 'Điều lệ giải Inline tốc độ 2026 (mẫu)', 'Inline Speed 2026 regulations (sample)'], ['form', 'Mẫu đăng ký vận động viên (mẫu)', 'Athlete registration form (sample)'], ['decision', 'Quyết định thành lập Ban tổ chức (mẫu)', 'Organizing committee decision (sample)'], ['rulebook', 'Luật thi đấu Short track (bản dịch mẫu)', 'Short track rulebook (sample translation)'], ['form', 'Mẫu cam kết phụ huynh (mẫu)', 'Parental consent form (sample)']].entries())
   await create('documents', { file: pdf, category: cat, discipline: disc[pick(Object.keys(disc))], published_date: `2026-0${(i % 9) + 1}-15`, demo: true, translations: T({ title: vi, description: 'Tệp PDF mẫu.' }, { title: en, description: 'Sample PDF file.' }) });
 // ---- galleries
-const covers = ['figure', 'shorttrack', 'inline', 'artistic', 'skate', 'kids', 'hockey'];
+const covers = ['figure', 'shorttrack', 'inline', 'artistic', 'skate', 'kids', 'hockey', 'podium', 'clinic'];
 for (const [i, c] of covers.entries()) {
   const g = await create('galleries', { slug: `album-demo-${i + 1}`, type: 'photo', cover: img[c], date: `2026-0${(i % 9) + 1}-10`, demo: true, translations: T({ title: `Album ảnh mẫu ${i + 1}` }, { title: `Sample album ${i + 1}` }) });
   await create('galleries_files', covers.map((x, k) => ({ galleries_id: g.id, directus_files_id: img[covers[(i + k) % covers.length]], sort: k })));

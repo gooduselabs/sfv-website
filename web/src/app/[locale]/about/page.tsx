@@ -22,11 +22,11 @@ export default async function About({ params }: { params: Promise<{ locale: stri
   return (
     <>
       <PageHeader kicker="SFV" title={t('title')} sub={pt.summary} image={asset(page?.cover, { w: 1800 })} />
-      <section className="section container-x grid gap-12 lg:grid-cols-[1fr_1.4fr]">
+      <section id="history" className="section container-x grid gap-12 lg:grid-cols-[1fr_1.4fr]">
         <Reveal><h2 className="font-display text-3xl font-bold sm:text-5xl">{t('history')}</h2></Reveal>
         <Reveal><div className="prose-sfv text-lg" dangerouslySetInnerHTML={{ __html: pt.body ?? '' }} /></Reveal>
       </section>
-      <section className="section bg-ice-grad"><div className="container-x">
+      <section id="board" className="section bg-ice-grad"><div className="container-x">
         <SectionTitle kicker="Board" title={t('board')} />
         {(['presidium', 'executive'] as const).map((g) => (
           <div key={g} className="mb-10">
@@ -45,7 +45,7 @@ export default async function About({ params }: { params: Promise<{ locale: stri
           </div>
         ))}
       </div></section>
-      <section className="section container-x">
+      <section id="departments" className="section container-x">
         <SectionTitle kicker="Committees" title={t('departments')} />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {depts.map((d, i) => <Reveal key={d.id} delay={i * 0.05}><div className="h-full rounded-3xl bg-white p-6 ring-1 ring-navy-900/5"><span className="font-display text-3xl font-bold text-ice-300">0{i + 1}</span><p className="font-display mt-4 font-semibold">{tr(d, locale).name}</p><p className="mt-2 text-sm text-navy-800/60">{tr(d, locale).description}</p></div></Reveal>)}

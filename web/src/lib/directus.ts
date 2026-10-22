@@ -58,3 +58,12 @@ export function fmtDate(d: string | null | undefined, locale: string, opts: Intl
 export const nowIso = () => new Date().toISOString();
 /** Public news filter: published or scheduled-in-the-past. */
 export const newsFilter = () => ({ _and: [{ status: { _in: ['published', 'scheduled'] } }, { publish_date: { _lte: nowIso() } }] });
+/** Paged list with total count (Directus meta=filter_count). */
+export async function paged(collection: string, q: Query & { page: number; limit: number }): Promise<{ data: Item[]; total: number }> {
+  try {
+    const p = new URLSearchParams(qs(q)); p.set('page', String(q.page)); p.set('meta', 'filter_count');
+    const r = await fetch(`${API}/items/${collection}?${p}`, { next: { revalidate: 60, tags: ['directus'] } });
+    if (!r.ok) return { data: [], total: 0 };
+    const j = await r.json(); return { data: j.data ?? [], total: j.meta?.filter_count ?? 0 };
+  } catch { return { data: [], total: 0 }; }
+}

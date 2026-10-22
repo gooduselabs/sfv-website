@@ -24,7 +24,7 @@ export default async function Results({ params, searchParams }: { params: Promis
       <PageHeader kicker="Rankings" title={t('title')} sub={t('sub')}>
         <Link href="/records" className="mt-6 inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-semibold hover:bg-white/20">{tn('records')} →</Link>
       </PageHeader>
-      <section className="container-x relative z-10 -mt-6">
+      <section className="container-x relative z-10 mt-6">
         <div className="frost space-y-3 rounded-3xl p-4 sm:p-6">
           <Chips base="/results" param="discipline" active={discipline} extra={extra} items={discs.map((d) => ({ value: d.slug, label: tr(d, locale).name }))} />
           <div className="flex flex-wrap gap-6">

@@ -16,7 +16,7 @@ export default async function Documents({ params, searchParams }: { params: Prom
   return (
     <>
       <PageHeader kicker="Docs" title={t('title')} sub={t('sub')} />
-      <section className="container-x relative z-10 -mt-6"><div className="frost rounded-3xl p-4 sm:p-6"><Chips base="/documents" param="category" active={sp.category} items={[{ value: '', label: tm('all') }, ...['regulation', 'form', 'decision', 'rulebook'].map((c) => ({ value: c, label: t(c) }))]} /></div></section>
+      <section className="container-x relative z-10 mt-6"><div className="frost rounded-3xl p-4 sm:p-6"><Chips base="/documents" param="category" active={sp.category} items={[{ value: '', label: tm('all') }, ...['regulation', 'form', 'decision', 'rulebook'].map((c) => ({ value: c, label: t(c) }))]} /></div></section>
       <section className="section container-x">
         <div className="divide-y divide-navy-900/5 overflow-hidden rounded-3xl bg-white ring-1 ring-navy-900/5">
           {docs.map((d) => (

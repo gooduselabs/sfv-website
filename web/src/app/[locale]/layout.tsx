@@ -3,15 +3,14 @@ import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
-import { Be_Vietnam_Pro, Unbounded } from 'next/font/google';
+import { Be_Vietnam_Pro } from 'next/font/google';
 import { routing } from '@/i18n/routing';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { BladeTrail } from '@/components/Motion';
+import { single } from '@/lib/directus';
 import '../globals.css';
 
-const body = Be_Vietnam_Pro({ subsets: ['latin', 'vietnamese'], weight: ['400', '500', '600', '700'], variable: '--font-body', display: 'swap' });
-const display = Unbounded({ subsets: ['latin', 'vietnamese'], weight: ['500', '600', '700', '800'], variable: '--font-display', display: 'swap' });
+const body = Be_Vietnam_Pro({ subsets: ['latin', 'vietnamese'], weight: ['400', '500', '600', '700', '800'], variable: '--font-body', display: 'swap' });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
@@ -26,13 +25,13 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
+  const s = await single('site_settings', { fields: ['email', 'phone', 'facebook', 'youtube'] });
   return (
-    <html lang={locale} className={`${body.variable} ${display.variable}`}>
+    <html lang={locale} className={body.variable}>
       <body className="min-h-screen font-sans">
         <NextIntlClientProvider>
           <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-white focus:px-4 focus:py-2">Skip</a>
-          <Header />
-          <BladeTrail />
+          <Header email={s?.email} phone={s?.phone} facebook={s?.facebook} youtube={s?.youtube} />
           <main id="main" className="relative z-10">{children}</main>
           <Footer />
         </NextIntlClientProvider>

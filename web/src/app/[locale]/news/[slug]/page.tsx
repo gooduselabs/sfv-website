@@ -1,36 +1,52 @@
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { Clock, Eye, Link2, Mail, User } from 'lucide-react';
+import { Facebook } from '@/components/Social';
 import { asset, fmtDate, items, newsFilter, one, tr } from '@/lib/directus';
-import { NewsCard } from '@/components/Cards';
+import { Breadcrumb, CatTag, NEWS_FIELDS, NewsCardV, Sidebar } from '@/components/Portal';
 import { DemoBadge } from '@/components/Demo';
-import { Link } from '@/i18n/navigation';
 
 export const revalidate = 60;
 type P = { params: Promise<{ locale: string; slug: string }> };
 export async function generateMetadata({ params }: P) { const { slug, locale } = await params; const n = await one('news', { fields: ['cover', 'translations.*'], filter: { _and: [{ slug: { _eq: slug } }, newsFilter()] } }); const t = tr(n, locale); return { title: t.title ?? slug, description: t.excerpt, openGraph: { images: n?.cover ? [asset(n.cover, { w: 1200 })!] : [] } }; }
 export default async function Article({ params }: P) {
   const { locale, slug } = await params; setRequestLocale(locale);
-  const n = await one('news', { fields: ['*', 'translations.*', 'category.translations.*', 'discipline.slug', 'discipline.translations.*'], filter: { _and: [{ slug: { _eq: slug } }, newsFilter()] } });
+  const n = await one('news', { fields: ['*', 'translations.*', 'category.id', 'category.slug', 'category.translations.*', 'discipline.slug', 'discipline.translations.*'], filter: { _and: [{ slug: { _eq: slug } }, newsFilter()] } });
   if (!n) notFound();
-  const t = await getTranslations('news');
+  const [t, tp, tm] = [await getTranslations('news'), await getTranslations('portal'), await getTranslations('menu')];
   const tn = tr(n, locale);
-  const related = await items('news', { fields: ['*', 'translations.*', 'category.translations.*'], filter: { _and: [newsFilter(), { id: { _neq: n.id } }] }, sort: ['-publish_date'], limit: 3 });
+  const related = await items('news', { fields: NEWS_FIELDS, filter: { _and: [newsFilter(), { id: { _neq: n.id } }, { category: { _eq: n.category?.id } }] }, sort: ['-publish_date'], limit: 6 });
+  const url = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}${locale === 'en' ? '/en' : ''}/news/${n.slug}`;
+  const share = [
+    { label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, I: Facebook, cls: 'bg-[#1877f2]' },
+    { label: 'X', href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(tn.title ?? '')}`, I: Link2, cls: 'bg-navy-950' },
+    { label: 'Zalo', href: `https://sp.zalo.me/share_inline?url=${encodeURIComponent(url)}`, I: Link2, cls: 'bg-[#0068ff]' },
+    { label: 'Email', href: `mailto:?subject=${encodeURIComponent(tn.title ?? '')}&body=${encodeURIComponent(url)}`, I: Mail, cls: 'bg-ice-600' },
+  ];
   return (
-    <article>
-      <header className="relative overflow-hidden bg-navy-950 pb-10 pt-32 text-white sm:pt-40">
-        {n.cover && <img src={asset(n.cover, { w: 1800 })!} alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" />}
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950 to-navy-950/30" />
-        <div className="container-x relative max-w-4xl">
-          <div className="flex flex-wrap items-center gap-2"><span className="tag bg-white/15">{tr(n.category, locale).name}</span>{n.discipline && <Link href={`/disciplines/${n.discipline.slug}`} className="tag bg-ice-500">{tr(n.discipline, locale).name}</Link>}<DemoBadge show={n.demo} /></div>
-          <h1 className="font-display mt-4 text-3xl font-bold leading-tight sm:text-5xl">{tn.title}</h1>
-          <p className="mt-4 text-sm text-white/60">{fmtDate(n.publish_date, locale, { day: '2-digit', month: 'long', year: 'numeric' })}</p>
-        </div>
-      </header>
-      <div className="container-x max-w-3xl py-12">
-        <p className="text-lg font-medium text-navy-800/80">{tn.excerpt}</p>
-        <div className="prose-sfv mt-6" dangerouslySetInnerHTML={{ __html: tn.body ?? '' }} />
+    <>
+      <div className="border-b border-navy-900/10 bg-ice-50"><div className="container-x py-2.5"><Breadcrumb items={[{ label: tm('home'), href: '/' }, { label: tm('news'), href: '/news' }, { label: tr(n.category, locale).name, href: `/news?category=${n.category?.slug}` }, { label: tn.title }]} /></div></div>
+      <div className="container-x mt-6 grid gap-8 lg:grid-cols-[1fr_340px]">
+        <article className="min-w-0">
+          <div className="flex items-center gap-3"><CatTag n={n} locale={locale} /><DemoBadge show={n.demo} /></div>
+          <h1 className="mt-2 text-[26px] font-extrabold leading-tight text-navy-950 sm:text-[34px]">{tn.title}</h1>
+          <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-navy-900/10 pb-3 text-[13px] text-navy-800/60">
+            <span className="inline-flex items-center gap-1.5"><Clock size={14} />{fmtDate(n.publish_date, locale, { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+            {n.author && <span className="inline-flex items-center gap-1.5"><User size={14} />{n.author}</span>}
+            <span className="inline-flex items-center gap-1.5"><Eye size={14} />{n.views ?? 0} {tp('views')}</span>
+            <span className="ml-auto flex items-center gap-1.5">{tp('share')}:{share.map((s) => <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} title={s.label} className={`grid h-7 w-7 place-items-center rounded-full text-white ${s.cls}`}>{s.label === 'X' ? <span className="text-[11px] font-bold">X</span> : s.label === 'Zalo' ? <span className="text-[9px] font-bold">Zalo</span> : <s.I size={14} />}</a>)}</span>
+          </div>
+          <p className="mt-5 text-[18px] font-semibold leading-relaxed text-navy-900">{tn.excerpt}</p>
+          {n.cover && <figure className="mt-5"><img src={asset(n.cover, { w: 1200 })!} alt="" className="w-full rounded" /><figcaption className="mt-1.5 text-center text-[13px] italic text-navy-800/55">Ảnh minh họa (AI, demo)</figcaption></figure>}
+          <div className="prose-sfv mt-4" dangerouslySetInnerHTML={{ __html: tn.body ?? '' }} />
+          <p className="mt-6 text-right text-sm font-bold">{n.author}</p>
+          <section className="mt-10">
+            <h2 className="mb-4 border-b-2 border-navy-800 pb-1 text-[15px] font-bold uppercase tracking-wide">{t('related')}</h2>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3">{related.map((r) => <NewsCardV key={r.id} n={r} locale={locale} />)}</div>
+          </section>
+        </article>
+        <Sidebar show={['mostRead', 'announcements', 'fixtures', 'documents']} />
       </div>
-      <section className="container-x"><h2 className="font-display mb-6 text-2xl font-bold">{t('related')}</h2><div className="grid gap-5 md:grid-cols-3">{related.map((r) => <NewsCard key={r.id} n={r} locale={locale} />)}</div></section>
-    </article>
+    </>
   );
 }

@@ -19,7 +19,7 @@ export default async function Athletes({ params, searchParams }: { params: Promi
   return (
     <>
       <PageHeader kicker="Athletes" title={t('title')} sub={t('sub')} />
-      <section className="container-x relative z-10 -mt-6">
+      <section className="container-x relative z-10 mt-6">
         <div className="frost space-y-3 rounded-3xl p-4 sm:p-6">
           <form className="flex gap-2" action="">
             {sp.discipline && <input type="hidden" name="discipline" value={sp.discipline} />}
