@@ -1,0 +1,1 @@
+export const HREF: Record<string, string> = { home: '/', about: '/about', disciplines: '/disciplines', competitions: '/competitions', results: '/results', records: '/records', athletes: '/athletes', teams: '/teams', clubs: '/clubs', news: '/news', documents: '/documents', gallery: '/gallery', register: '/register', contact: '/contact', search: '/search' };

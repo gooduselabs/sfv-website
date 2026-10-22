@@ -1,0 +1,1 @@
+{"name":"sfv-website","private":true,"scripts":{"cms":"cd cms && npx directus start","web:dev":"cd web && npm run dev","web:build":"cd web && npm run build","lint":"cd web && npm run lint && npm run typecheck","cms:init":"cd cms && sh scripts/init.sh","import:results":"cd cms && node scripts/import-results.mjs","screenshots":"cd tools && node screenshots.mjs ../screens"}}
