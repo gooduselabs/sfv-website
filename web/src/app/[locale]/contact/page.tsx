@@ -14,7 +14,7 @@ export default async function Contact({ params }: { params: Promise<{ locale: st
     <>
       <PageHeader kicker="SFV" title={t('title')} sub={t('sub')} />
       <section className="section container-x grid gap-4 md:grid-cols-3">
-        {rows.map(([I, k, v]) => <div key={k} className="rounded-3xl bg-white p-6 ring-1 ring-navy-900/5"><I className="text-ice-500" /><p className="mt-4 text-sm text-navy-800/50">{k}</p><p className="font-display mt-1 font-semibold">{v}</p></div>)}
+        {rows.map(([I, k, v]) => <div key={k} className="rounded-3xl bg-white p-6 ring-1 ring-navy-900/5"><I className="text-brand" /><p className="mt-4 text-sm text-navy-800/50">{k}</p><p className="font-display mt-1 font-semibold">{v}</p></div>)}
         <p className="text-sm text-amber-700 md:col-span-3">⚠ Thông tin liên hệ mẫu – chờ SFV cung cấp / Sample contact info.</p>
       </section>
     </>

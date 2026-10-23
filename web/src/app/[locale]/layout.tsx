@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description: 'Cổng thông tin Liên đoàn Trượt băng và Roller Việt Nam: giải đấu, kết quả, vận động viên, CLB.',
   icons: { icon: '/icon.svg' },
 };
-export const viewport: Viewport = { themeColor: '#071328', width: 'device-width', initialScale: 1 };
+export const viewport: Viewport = { themeColor: '#c8102e', width: 'device-width', initialScale: 1 };
 export function generateStaticParams() { return routing.locales.map((locale) => ({ locale })); }
 
 export default async function LocaleLayout({ children, params }: { children: ReactNode; params: Promise<{ locale: string }> }) {

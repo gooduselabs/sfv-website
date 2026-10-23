@@ -26,7 +26,7 @@ export default async function Athlete({ params }: P) {
       <section className="container-x grid gap-10 py-12 lg:grid-cols-[320px_1fr]">
         <aside className="space-y-4">
           <div className={`grid aspect-square place-items-center overflow-hidden rounded-[2rem] ${area === 'roller' ? 'bg-roller' : 'bg-ice-grad'} ring-1 ring-navy-900/5`}>
-            {a.photo ? <img src={asset(a.photo, { w: 600 })!} alt={a.full_name} className="h-full w-full object-cover" /> : <span className={`font-display text-8xl font-bold ${area === 'roller' ? 'text-gradient-roller' : 'text-ice-500'}`}>{initials(a.full_name)}</span>}
+            {a.photo ? <img src={asset(a.photo, { w: 600 })!} alt={a.full_name} className="h-full w-full object-cover" /> : <span className={`font-display text-8xl font-bold ${area === 'roller' ? 'text-gradient-roller' : 'text-brand'}`}>{initials(a.full_name)}</span>}
           </div>
           <dl className="grid grid-cols-2 gap-3 text-sm">
             {[[tm('birthYear'), a.birth_year], [tm('gender'), a.gender === 'M' ? tm('men') : tm('women')], [tm('club'), a.club?.name], [tc('city'), a.club?.city], [tc('results'), res.length], [tc('rank'), best ? `#${best}` : '-']].map(([k, v]) => (
@@ -41,7 +41,7 @@ export default async function Athlete({ params }: P) {
             <div className="overflow-x-auto rounded-3xl bg-white ring-1 ring-navy-900/5"><table className="w-full min-w-[520px] text-sm">
               <thead className="bg-navy-900 text-left text-xs uppercase tracking-wider text-white/80"><tr><th className="px-4 py-3">{tm('date')}</th><th className="px-4 py-3">{tc('title')}</th><th className="px-4 py-3">{tm('discipline')}</th><th className="px-4 py-3 text-right">{tc('rank')}</th><th className="px-4 py-3 text-right">{tc('mark')}</th></tr></thead>
               <tbody>{res.map((r) => (
-                <tr key={r.id} className="border-t border-navy-900/5"><td className="px-4 py-3 text-navy-800/60">{fmtDate(r.event?.competition?.start_date, locale)}</td><td className="px-4 py-3"><Link href={`/competitions/${r.event?.competition?.slug}#results`} className="font-medium hover:text-ice-600">{tr(r.event?.competition, locale).name}</Link></td><td className="px-4 py-3">{tr(r.event, locale).name}</td><td className="px-4 py-3 text-right font-bold">{r.rank}</td><td className="px-4 py-3 text-right font-mono">{r.result_text}</td></tr>
+                <tr key={r.id} className="border-t border-navy-900/5"><td className="px-4 py-3 text-navy-800/60">{fmtDate(r.event?.competition?.start_date, locale)}</td><td className="px-4 py-3"><Link href={`/competitions/${r.event?.competition?.slug}#results`} className="font-medium hover:text-brand">{tr(r.event?.competition, locale).name}</Link></td><td className="px-4 py-3">{tr(r.event, locale).name}</td><td className="px-4 py-3 text-right font-bold">{r.rank}</td><td className="px-4 py-3 text-right font-mono">{r.result_text}</td></tr>
               ))}</tbody>
             </table>{!res.length && <p className="p-6 text-navy-800/50">{tm('noData')}</p>}</div>
           </div>

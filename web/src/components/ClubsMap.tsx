@@ -42,15 +42,15 @@ export function ClubsMap({ clubs, labels }: { clubs: Club[]; labels: Record<stri
   return (
     <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
       <div className="relative overflow-hidden rounded-[2rem] ring-1 ring-navy-900/10">
-        <div ref={el} className="h-[65vh] min-h-[420px] w-full bg-ice-100" />
+        <div ref={el} className="h-[65vh] min-h-[420px] w-full bg-slate-100" />
         <div className="frost absolute left-3 top-3 flex gap-1 rounded-full p-1 text-xs font-semibold">
           {[['', labels.all], ['ice', labels.ice], ['roller', labels.roller]].map(([v, l]) => <button key={v} onClick={() => setArea(v)} className={`rounded-full px-3 py-1.5 ${area === v ? 'bg-navy-900 text-white' : ''}`}>{l}</button>)}
         </div>
       </div>
       <div className="max-h-[65vh] space-y-2 overflow-y-auto pr-1">
-        {sel && <div className="rounded-3xl bg-navy-950 p-5 text-white"><p className="text-xs uppercase tracking-widest text-ice-300">{labels[sel.type]}</p><p className="font-display mt-1 text-lg font-semibold">{sel.name}</p><p className="mt-1 text-sm text-white/60">{sel.address}</p>{sel.demo && <span className="tag mt-3 bg-amber-300 text-amber-950">Demo</span>}</div>}
+        {sel && <div className="rounded-3xl bg-navy-950 p-5 text-white"><p className="text-xs uppercase tracking-widest text-gold">{labels[sel.type]}</p><p className="font-display mt-1 text-lg font-semibold">{sel.name}</p><p className="mt-1 text-sm text-white/60">{sel.address}</p>{sel.demo && <span className="tag mt-3 bg-amber-300 text-amber-950">Demo</span>}</div>}
         {shown.map((c) => (
-          <button key={c.id} onClick={() => { setSel(c); map.current?.flyTo({ center: [c.lng, c.lat], zoom: 12 }); }} className="flex w-full items-center gap-3 rounded-2xl bg-white p-3 text-left text-sm ring-1 ring-navy-900/5 hover:ring-ice-400">
+          <button key={c.id} onClick={() => { setSel(c); map.current?.flyTo({ center: [c.lng, c.lat], zoom: 12 }); }} className="flex w-full items-center gap-3 rounded-2xl bg-white p-3 text-left text-sm ring-1 ring-navy-900/5 hover:ring-brand">
             <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: COLOR[c.area] }} />
             <span className="min-w-0 flex-1"><span className="block truncate font-semibold">{c.name}</span><span className="block text-xs text-navy-800/50">{labels[c.type]} · {c.city}</span></span>
           </button>

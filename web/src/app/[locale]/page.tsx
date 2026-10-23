@@ -44,25 +44,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       {/* hero: 1 big + 4 side */}
       {lead && (
-        <section className="container-x pt-6">
-          <div className="grid gap-5 lg:grid-cols-[1.6fr_1fr]">
-            <Link href={`/news/${lead.slug}`} className="group relative block overflow-hidden rounded bg-navy-900">
-              <img src={asset(lead.cover, { w: 1400 })!} alt="" className="aspect-[16/10] h-full w-full object-cover opacity-90 transition duration-700 group-hover:scale-[1.03] lg:aspect-auto lg:min-h-[460px]" />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-7">
-                <span className="rounded-sm bg-ice-600 px-2 py-0.5 text-[11.5px] font-bold uppercase">{tr(lead.category, locale).name}</span>
-                {lead.demo && <span className="ml-2 rounded-sm bg-amber-300 px-2 py-0.5 text-[11px] font-bold text-amber-950">DEMO</span>}
-                <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-[32px]">{tr(lead, locale).title}</h2>
-                <p className="mt-2 line-clamp-2 max-w-2xl text-[15px] text-white/80">{tr(lead, locale).excerpt}</p>
-                <span className="mt-3 inline-flex rounded-sm border border-white/50 px-3 py-1 text-[13px] font-semibold">{t('more')} ›</span>
-              </div>
-            </Link>
-            <div className="grid content-between gap-4">{side.map((n) => <NewsSide key={n.id} n={n} locale={locale} />)}</div>
+        <section className="pattern-dots border-b border-navy-900/5 bg-slate-50/60 pb-8 pt-6">
+          <div className="container-x grid gap-5 lg:grid-cols-[1.7fr_1fr]">
+            <NewsBig n={lead} locale={locale} size="lg" />
+            <div className="grid content-between gap-4 border-t-[3px] border-brand bg-white p-4 shadow-sm">{side.map((n) => <NewsSide key={n.id} n={n} locale={locale} />)}</div>
           </div>
         </section>
       )}
 
-      <div className="container-x mt-10 grid gap-8 lg:grid-cols-[1fr_340px]">
+      <div className="container-x mt-8 grid gap-8 lg:grid-cols-[1fr_340px]">
         <div className="min-w-0 space-y-10">
           <section>
             <BlockTitle title={t('latest')} href="/news" more={t('viewAllNews')} />
@@ -98,7 +88,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {/* video block */}
       <section className="mt-12 bg-navy-900 py-10 text-white">
         <div className="container-x">
-          <div className="mb-5 flex items-end justify-between border-b border-white/15 pb-2"><h2 className="text-lg font-extrabold uppercase tracking-wide"><span className="text-neon-orange">▶</span> {t('video')}</h2><Link href="/gallery#videos" className="text-[13px] font-semibold text-ice-300 hover:underline">{t('more')} ›</Link></div>
+          <div className="mb-5 flex items-end justify-between border-b border-white/15 pb-2"><h2 className="text-lg font-extrabold uppercase tracking-wide"><span className="text-neon-orange">▶</span> {t('video')}</h2><Link href="/gallery#videos" className="text-[13px] font-semibold text-gold hover:underline">{t('more')} ›</Link></div>
           <div className="grid gap-5 md:grid-cols-[1.6fr_1fr]">
             {[...videos, ...photos.slice(0, 2)].slice(0, 3).map((v, i) => (
               <Link key={v.slug} href="/gallery#videos" className={`group relative block overflow-hidden rounded ${i === 0 ? 'md:row-span-2' : ''}`}>

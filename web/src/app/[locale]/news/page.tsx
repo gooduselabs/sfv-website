@@ -27,16 +27,16 @@ export default async function News({ params, searchParams }: { params: Promise<{
         <div className="min-w-0">
           <div className="flex flex-wrap gap-2 border-b border-navy-900/10 pb-3">
             {[{ slug: '', name: tm('all') }, ...cats.map((c) => ({ slug: c.slug, name: tr(c, locale).name }))].map((c) => (
-              <Link key={c.slug} href={c.slug ? `/news?category=${c.slug}` : '/news'} className={`rounded-sm px-3 py-1.5 text-[13px] font-semibold ${(sp.category ?? '') === c.slug ? 'bg-navy-800 text-white' : 'bg-ice-50 text-navy-800 hover:bg-ice-100'}`}>{c.name}</Link>
+              <Link key={c.slug} href={c.slug ? `/news?category=${c.slug}` : '/news'} className={`rounded-sm px-3 py-1.5 text-[13px] font-semibold ${(sp.category ?? '') === c.slug ? 'bg-navy-800 text-white' : 'bg-slate-50 text-navy-800 hover:bg-slate-100'}`}>{c.name}</Link>
             ))}
           </div>
           {data.map((n) => <NewsRow key={n.id} n={n} locale={locale} />)}
           {!data.length && <p className="py-10 text-navy-800/50">{tm('noData')}</p>}
           {pages > 1 && (
             <nav className="mt-6 flex flex-wrap items-center gap-1.5" aria-label="Pagination">
-              {page > 1 && <Link href={href(page - 1)} className="rounded-sm border border-navy-900/15 px-3 py-1.5 text-sm hover:bg-ice-50">‹ {tp('prev')}</Link>}
-              {Array.from({ length: pages }, (_, i) => i + 1).map((p) => <Link key={p} href={href(p)} aria-current={p === page ? 'page' : undefined} className={`min-w-9 rounded-sm border px-3 py-1.5 text-center text-sm ${p === page ? 'border-navy-800 bg-navy-800 text-white' : 'border-navy-900/15 hover:bg-ice-50'}`}>{p}</Link>)}
-              {page < pages && <Link href={href(page + 1)} className="rounded-sm border border-navy-900/15 px-3 py-1.5 text-sm hover:bg-ice-50">{tp('next')} ›</Link>}
+              {page > 1 && <Link href={href(page - 1)} className="rounded-sm border border-navy-900/15 px-3 py-1.5 text-sm hover:bg-brand-50">‹ {tp('prev')}</Link>}
+              {Array.from({ length: pages }, (_, i) => i + 1).map((p) => <Link key={p} href={href(p)} aria-current={p === page ? 'page' : undefined} className={`min-w-9 rounded-sm border px-3 py-1.5 text-center text-sm ${p === page ? 'border-navy-800 bg-navy-800 text-white' : 'border-navy-900/15 hover:bg-brand-50'}`}>{p}</Link>)}
+              {page < pages && <Link href={href(page + 1)} className="rounded-sm border border-navy-900/15 px-3 py-1.5 text-sm hover:bg-brand-50">{tp('next')} ›</Link>}
             </nav>
           )}
         </div>

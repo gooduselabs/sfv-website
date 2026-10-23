@@ -34,11 +34,11 @@ export default async function About({ params }: { params: Promise<{ locale: stri
             <div className={`grid gap-4 ${g === 'presidium' ? 'sm:grid-cols-2 lg:grid-cols-4' : 'grid-cols-2 lg:grid-cols-4'}`}>
               {board.filter((b) => b.group === g).map((b, i) => (
                 <Reveal key={b.id} delay={i * 0.05}><div className="frost rounded-3xl p-5">
-                  <div className="grid aspect-[4/3] place-items-center rounded-2xl bg-gradient-to-br from-ice-200 to-ice-100">
-                    {b.photo ? <img src={asset(b.photo, { w: 400 })!} alt={b.name} className="h-full w-full rounded-2xl object-cover" /> : <span className="font-display text-4xl font-bold text-ice-500">{initials(b.name)}</span>}
+                  <div className="grid aspect-[4/3] place-items-center rounded-2xl bg-gradient-to-br from-ice-200 to-slate-100">
+                    {b.photo ? <img src={asset(b.photo, { w: 400 })!} alt={b.name} className="h-full w-full rounded-2xl object-cover" /> : <span className="font-display text-4xl font-bold text-brand">{initials(b.name)}</span>}
                   </div>
                   <div className="mt-4 flex items-start justify-between gap-2"><p className="font-display font-semibold">{b.name}</p><DemoBadge show={b.demo} /></div>
-                  <p className="text-sm text-ice-600">{tr(b, locale).position}</p>
+                  <p className="text-sm text-brand">{tr(b, locale).position}</p>
                 </div></Reveal>
               ))}
             </div>
@@ -48,13 +48,13 @@ export default async function About({ params }: { params: Promise<{ locale: stri
       <section id="departments" className="section container-x">
         <SectionTitle kicker="Committees" title={t('departments')} />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {depts.map((d, i) => <Reveal key={d.id} delay={i * 0.05}><div className="h-full rounded-3xl bg-white p-6 ring-1 ring-navy-900/5"><span className="font-display text-3xl font-bold text-ice-300">0{i + 1}</span><p className="font-display mt-4 font-semibold">{tr(d, locale).name}</p><p className="mt-2 text-sm text-navy-800/60">{tr(d, locale).description}</p></div></Reveal>)}
+          {depts.map((d, i) => <Reveal key={d.id} delay={i * 0.05}><div className="h-full rounded-3xl bg-white p-6 ring-1 ring-navy-900/5"><span className="font-display text-3xl font-bold text-gold">0{i + 1}</span><p className="font-display mt-4 font-semibold">{tr(d, locale).name}</p><p className="mt-2 text-sm text-navy-800/60">{tr(d, locale).description}</p></div></Reveal>)}
         </div>
       </section>
       <section className="container-x">
         <SectionTitle kicker="Members" title={t('members')} href="/clubs" more="Map" />
         <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-          {clubs.map((c) => <Link key={c.name} href="/clubs" className="flex items-center justify-between rounded-2xl bg-white px-5 py-4 ring-1 ring-navy-900/5 hover:ring-ice-400"><span className="font-medium">{c.name}</span><DemoBadge show={c.demo} /></Link>)}
+          {clubs.map((c) => <Link key={c.name} href="/clubs" className="flex items-center justify-between rounded-2xl bg-white px-5 py-4 ring-1 ring-navy-900/5 hover:ring-brand"><span className="font-medium">{c.name}</span><DemoBadge show={c.demo} /></Link>)}
         </div>
       </section>
     </>

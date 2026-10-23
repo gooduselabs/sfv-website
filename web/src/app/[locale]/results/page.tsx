@@ -41,12 +41,12 @@ export default async function Results({ params, searchParams }: { params: Promis
             <table className="w-full min-w-[560px] text-sm">
               <thead className="bg-navy-900 text-left text-xs uppercase tracking-wider text-white/80"><tr><th className="px-4 py-3">#</th><th className="px-4 py-3">{tc('athlete')}</th><th className="px-4 py-3">{tm('club')}</th><th className="px-4 py-3">{tm('birthYear')}</th><th className="px-4 py-3 text-right">{t('starts')}</th><th className="px-4 py-3 text-right">{t('best')}</th><th className="px-4 py-3 text-right">{tc('points')}</th></tr></thead>
               <tbody>{(ranking ?? []).map((r) => (
-                <tr key={r.athlete_id} className="border-t border-navy-900/5 hover:bg-ice-50">
+                <tr key={r.athlete_id} className="border-t border-navy-900/5 hover:bg-brand-50">
                   <td className="px-4 py-3"><span className={`font-display font-bold ${r.position <= 3 ? 'text-gradient-roller text-lg' : 'text-navy-800/50'}`}>{r.position}</span></td>
-                  <td className="px-4 py-3 font-medium"><Link href={`/athletes/${r.slug}`} className="hover:text-ice-600">{r.full_name}</Link></td>
+                  <td className="px-4 py-3 font-medium"><Link href={`/athletes/${r.slug}`} className="hover:text-brand">{r.full_name}</Link></td>
                   <td className="px-4 py-3 text-navy-800/60">{r.club}</td><td className="px-4 py-3">{r.birth_year}</td>
                   <td className="px-4 py-3 text-right">{r.starts}</td><td className="px-4 py-3 text-right">{r.best_rank}</td>
-                  <td className="px-4 py-3 text-right font-display font-bold text-ice-600">{r.points}</td>
+                  <td className="px-4 py-3 text-right font-display font-bold text-brand">{r.points}</td>
                 </tr>
               ))}</tbody>
             </table>
@@ -55,7 +55,7 @@ export default async function Results({ params, searchParams }: { params: Promis
         </div>
         <aside>
           <h3 className="font-display mb-4 text-lg font-bold">{t('recent')}</h3>
-          <div className="space-y-2">{finished.map((c) => <Link key={c.slug} href={`/competitions/${c.slug}#results`} className="block rounded-2xl bg-white p-4 ring-1 ring-navy-900/5 hover:ring-ice-400"><p className="text-xs text-ice-600">{tr(c.discipline, locale).name}</p><p className="font-semibold leading-snug">{tr(c, locale).name}</p></Link>)}</div>
+          <div className="space-y-2">{finished.map((c) => <Link key={c.slug} href={`/competitions/${c.slug}#results`} className="block rounded-2xl bg-white p-4 ring-1 ring-navy-900/5 hover:ring-brand"><p className="text-xs text-brand">{tr(c.discipline, locale).name}</p><p className="font-semibold leading-snug">{tr(c, locale).name}</p></Link>)}</div>
         </aside>
       </section>
     </>

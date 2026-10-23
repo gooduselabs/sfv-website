@@ -23,7 +23,7 @@ export default async function Athletes({ params, searchParams }: { params: Promi
         <div className="frost space-y-3 rounded-3xl p-4 sm:p-6">
           <form className="flex gap-2" action="">
             {sp.discipline && <input type="hidden" name="discipline" value={sp.discipline} />}
-            <input name="q" defaultValue={sp.q} placeholder={t('search')} className="w-full rounded-full bg-white px-5 py-2.5 text-sm ring-1 ring-navy-900/10 outline-none focus:ring-ice-400" />
+            <input name="q" defaultValue={sp.q} placeholder={t('search')} className="w-full rounded-full bg-white px-5 py-2.5 text-sm ring-1 ring-navy-900/10 outline-none focus:ring-brand" />
             <button className="rounded-full bg-navy-900 px-5 text-sm font-semibold text-white">{tm('filter')}</button>
           </form>
           <Chips base="/athletes" param="discipline" active={sp.discipline} extra={extra} items={[{ value: '', label: tm('all') }, ...discs.map((d) => ({ value: d.slug, label: tr(d, locale).name }))]} />

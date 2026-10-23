@@ -21,11 +21,11 @@ export default async function Article({ params }: P) {
     { label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, I: Facebook, cls: 'bg-[#1877f2]' },
     { label: 'X', href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(tn.title ?? '')}`, I: Link2, cls: 'bg-navy-950' },
     { label: 'Zalo', href: `https://sp.zalo.me/share_inline?url=${encodeURIComponent(url)}`, I: Link2, cls: 'bg-[#0068ff]' },
-    { label: 'Email', href: `mailto:?subject=${encodeURIComponent(tn.title ?? '')}&body=${encodeURIComponent(url)}`, I: Mail, cls: 'bg-ice-600' },
+    { label: 'Email', href: `mailto:?subject=${encodeURIComponent(tn.title ?? '')}&body=${encodeURIComponent(url)}`, I: Mail, cls: 'bg-brand' },
   ];
   return (
     <>
-      <div className="border-b border-navy-900/10 bg-ice-50"><div className="container-x py-2.5"><Breadcrumb items={[{ label: tm('home'), href: '/' }, { label: tm('news'), href: '/news' }, { label: tr(n.category, locale).name, href: `/news?category=${n.category?.slug}` }, { label: tn.title }]} /></div></div>
+      <div className="border-b border-navy-900/10 bg-slate-50"><div className="container-x py-2.5"><Breadcrumb items={[{ label: tm('home'), href: '/' }, { label: tm('news'), href: '/news' }, { label: tr(n.category, locale).name, href: `/news?category=${n.category?.slug}` }, { label: tn.title }]} /></div></div>
       <div className="container-x mt-6 grid gap-8 lg:grid-cols-[1fr_340px]">
         <article className="min-w-0">
           <div className="flex items-center gap-3"><CatTag n={n} locale={locale} /><DemoBadge show={n.demo} /></div>

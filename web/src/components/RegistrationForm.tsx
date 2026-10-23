@@ -9,7 +9,7 @@ export function RegistrationForm({ comps, initial, l }: { comps: Comp[]; initial
   const [cid, setCid] = useState(String(comps.find((c) => c.slug === initial)?.id ?? comps[0]?.id ?? ''));
   const comp = comps.find((c) => String(c.id) === cid);
   if (state?.ok) return <div className="rounded-3xl bg-white p-10 text-center ring-1 ring-navy-900/5"><CheckCircle2 className="mx-auto h-14 w-14 text-emerald-500" /><p className="font-display mt-4 text-xl font-semibold">{l.ok}</p></div>;
-  const input = 'w-full rounded-2xl bg-ice-50 px-4 py-3 text-sm ring-1 ring-navy-900/10 outline-none transition focus:bg-white focus:ring-2 focus:ring-ice-400';
+  const input = 'w-full rounded-2xl bg-slate-50 px-4 py-3 text-sm ring-1 ring-navy-900/10 outline-none transition focus:bg-white focus:ring-2 focus:ring-brand';
   const F = ({ name, label, type = 'text', req = false }: { name: string; label: string; type?: string; req?: boolean }) => <label className="block"><span className="mb-1.5 block text-sm font-medium">{label}{req && ' *'}</span><input name={name} type={type} required={req} className={input} /></label>;
   return (
     <form action={action} className="grid gap-4 rounded-[2rem] bg-white p-6 ring-1 ring-navy-900/5 sm:grid-cols-2 sm:p-8">
@@ -21,7 +21,7 @@ export function RegistrationForm({ comps, initial, l }: { comps: Comp[]; initial
       <F name="contact_email" label={l.email} type="email" req /><F name="phone" label={l.phone} type="tel" />
       <label className="block sm:col-span-2"><span className="mb-1.5 block text-sm font-medium">{l.note}</span><textarea name="note" rows={3} className={input} /></label>
       <input name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
-      {state && !state.ok && <p className="text-sm font-medium text-red-600 sm:col-span-2">{l.err}</p>}
+      {state && !state.ok && <p className="text-sm font-medium text-brand sm:col-span-2">{l.err}</p>}
       <button disabled={pending} className="rounded-full bg-gradient-to-r from-neon-orange to-neon-pink px-6 py-3.5 font-semibold text-white shadow-lg shadow-neon-pink/25 transition hover:brightness-110 disabled:opacity-60 sm:col-span-2 sm:justify-self-start">{pending ? '…' : l.submit}</button>
     </form>
   );

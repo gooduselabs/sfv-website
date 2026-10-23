@@ -20,10 +20,10 @@ export default async function Documents({ params, searchParams }: { params: Prom
       <section className="section container-x">
         <div className="divide-y divide-navy-900/5 overflow-hidden rounded-3xl bg-white ring-1 ring-navy-900/5">
           {docs.map((d) => (
-            <a key={d.id} href={fileUrl(d.file?.id ?? d.file) ?? '#'} className="group flex items-center gap-4 p-5 hover:bg-ice-50">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-ice-100 text-ice-600"><FileText /></span>
+            <a key={d.id} href={fileUrl(d.file?.id ?? d.file) ?? '#'} className="group flex items-center gap-4 p-5 hover:bg-brand-50">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-slate-100 text-brand"><FileText /></span>
               <span className="min-w-0 flex-1"><span className="flex items-center gap-2 font-semibold">{tr(d, locale).title}<DemoBadge show={d.demo} /></span><span className="block text-xs text-navy-800/50">{t(d.category)} · {tr(d.discipline, locale).name} · {fmtDate(d.published_date, locale)}</span></span>
-              <span className="hidden items-center gap-1 text-sm font-semibold text-ice-600 sm:flex"><Download size={16} />{tm('download')}</span>
+              <span className="hidden items-center gap-1 text-sm font-semibold text-brand sm:flex"><Download size={16} />{tm('download')}</span>
             </a>
           ))}
         </div>
