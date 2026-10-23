@@ -45,12 +45,19 @@ services:
       SEED_IF_EMPTY: "1"   # demo seed only on an empty DB; never wipes edited content
     command: ["sh", "-c", "node scripts/setup-schema.mjs && SKIP_SCHEMA=1 sh scripts/init.sh"]
     restart: "no"
+  db-indexes:
+    image: postgres:17-alpine
+    depends_on: { cms-init: { condition: service_completed_successfully } }
+    environment: { PGPASSWORD: "${DB_PASSWORD}" }
+    command: ["psql", "-h", "db", "-U", "sfv", "-d", "sfv", "-v", "ON_ERROR_STOP=1", "-c",
+      "CREATE INDEX IF NOT EXISTS results_event_idx ON results(event); CREATE INDEX IF NOT EXISTS results_athlete_idx ON results(athlete); CREATE INDEX IF NOT EXISTS competition_events_comp_idx ON competition_events(competition);"]
+    restart: "no"
   web:
     build:
       context: ./web
       args: { NEXT_PUBLIC_DIRECTUS_URL: "http://${PUBLIC_HOST:-localhost}:${CMS_PORT:-8055}" }
     restart: unless-stopped
-    depends_on: { cms-init: { condition: service_completed_successfully } }
+    depends_on: { db-indexes: { condition: service_completed_successfully } }
     environment: { DIRECTUS_URL: http://directus:8055 }
     ports: ["0.0.0.0:${WEB_PORT:-3000}:3000"]
 volumes: { db: {}, uploads: {} }

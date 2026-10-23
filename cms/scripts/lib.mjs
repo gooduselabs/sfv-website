@@ -21,6 +21,7 @@ export async function api(method, p, body, { raw = false, quiet = false } = {}) 
 }
 export async function upload(file, title) {
   const fd = new FormData(); fd.append('title', title);
-  fd.append('file', new Blob([fs.readFileSync(file)]), path.basename(file));
+  const MIME = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.pdf': 'application/pdf', '.csv': 'text/csv' };
+  fd.append('file', new Blob([fs.readFileSync(file)], { type: MIME[path.extname(file).toLowerCase()] || 'application/octet-stream' }), path.basename(file));
   return (await api('POST', '/files', fd)).id;
 }
