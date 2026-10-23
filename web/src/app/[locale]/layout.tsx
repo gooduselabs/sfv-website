@@ -17,9 +17,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   title: { default: 'SFV – Liên đoàn Trượt băng và Roller Việt Nam', template: '%s · SFV' },
   description: 'Cổng thông tin Liên đoàn Trượt băng và Roller Việt Nam: giải đấu, kết quả, vận động viên, CLB.',
-  icons: { icon: '/icon.svg' },
+  openGraph: { siteName: 'SFV – Skating Federation of Vietnam', type: 'website' },
 };
-export const viewport: Viewport = { themeColor: '#c8102e', width: 'device-width', initialScale: 1 };
+export const viewport: Viewport = { themeColor: '#0f6fa8', width: 'device-width', initialScale: 1 };
 export function generateStaticParams() { return routing.locales.map((locale) => ({ locale })); }
 
 export default async function LocaleLayout({ children, params }: { children: ReactNode; params: Promise<{ locale: string }> }) {

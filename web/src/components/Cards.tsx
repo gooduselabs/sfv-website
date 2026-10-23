@@ -20,14 +20,14 @@ export function NewsCard({ n, locale, big = false }: { n: Item; locale: string; 
       </div>
       <div className="flex flex-col gap-2 p-5">
         <time className="text-xs font-medium text-navy-700/60">{fmtDate(n.publish_date, locale)}</time>
-        <h3 className={`font-display font-semibold leading-snug text-navy-950 group-hover:text-brand ${big ? 'text-2xl' : 'text-lg'}`}>{t.title}</h3>
+        <h3 className={`font-display font-semibold leading-snug text-navy-950 group-hover:text-sky-700 ${big ? 'text-2xl' : 'text-lg'}`}>{t.title}</h3>
         {big && <p className="text-sm text-navy-800/70">{t.excerpt}</p>}
       </div>
     </Link>
   );
 }
 
-export const STATUS_STYLE: Record<string, string> = { upcoming: 'bg-slate-100 text-brand', registration_open: 'bg-gradient-to-r from-neon-orange to-neon-pink text-white', ongoing: 'bg-emerald-500 text-white', finished: 'bg-slate-400/25 text-slate-500' };
+export const STATUS_STYLE: Record<string, string> = { upcoming: 'bg-slate-100 text-sky-700', registration_open: 'bg-gradient-to-r from-neon-orange to-neon-pink text-white', ongoing: 'bg-emerald-500 text-white', finished: 'bg-slate-400/25 text-slate-500' };
 
 export function CompetitionCard({ c, locale, label, dark = false }: { c: Item; locale: string; label: string; dark?: boolean }) {
   const t = tr(c, locale);
@@ -67,7 +67,7 @@ export function AthleteCard({ a, locale }: { a: Item; locale: string }) {
         {a.photo ? <img src={asset(a.photo, { w: 400, h: 400, fit: 'cover' })!} alt={a.full_name} className="h-full w-full object-cover" /> : (
           <>
             <svg viewBox="0 0 200 200" className="absolute inset-0 h-full w-full opacity-60" aria-hidden="true"><path d="M-10 150 C 60 90, 120 200, 210 110" fill="none" stroke={roller ? '#ff2f8e' : '#6aaee6'} strokeWidth="2" /><path d="M-10 165 C 60 105, 120 215, 210 125" fill="none" stroke={roller ? '#ff6a2b' : '#a6cdee'} strokeWidth="1" /></svg>
-            <span className={`font-display relative text-5xl font-bold ${roller ? 'text-gradient-roller' : 'text-brand'}`}>{initials(a.full_name)}</span>
+            <span className={`font-display relative text-5xl font-bold ${roller ? 'text-gradient-roller' : 'text-sky-700'}`}>{initials(a.full_name)}</span>
           </>
         )}
         <DemoBadge show={a.demo} className="absolute left-2 top-2" />
@@ -83,10 +83,10 @@ export function SectionTitle({ kicker, title, href, more, dark = false }: { kick
   return (
     <div className="mb-8 flex items-end justify-between gap-4 sm:mb-12">
       <div>
-        {kicker && <div className={`mb-2 text-xs font-semibold uppercase tracking-[0.25em] ${dark ? 'text-neon-orange' : 'text-brand'}`}>{kicker}</div>}
+        {kicker && <div className={`mb-2 text-xs font-semibold uppercase tracking-[0.25em] ${dark ? 'text-neon-orange' : 'text-sky-700'}`}>{kicker}</div>}
         <h2 className={`font-display text-3xl font-bold leading-tight sm:text-5xl ${dark ? 'text-white' : 'text-navy-950'}`}>{title}</h2>
       </div>
-      {href && <Link href={href} className={`group hidden shrink-0 items-center gap-1 text-sm font-semibold sm:inline-flex ${dark ? 'text-white/80 hover:text-white' : 'text-navy-800 hover:text-brand'}`}>{more}<ArrowUpRight size={16} className="transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></Link>}
+      {href && <Link href={href} className={`group hidden shrink-0 items-center gap-1 text-sm font-semibold sm:inline-flex ${dark ? 'text-white/80 hover:text-white' : 'text-navy-800 hover:text-sky-700'}`}>{more}<ArrowUpRight size={16} className="transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></Link>}
     </div>
   );
 }

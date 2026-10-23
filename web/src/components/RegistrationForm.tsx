@@ -21,7 +21,7 @@ export function RegistrationForm({ comps, initial, l }: { comps: Comp[]; initial
       <F name="contact_email" label={l.email} type="email" req /><F name="phone" label={l.phone} type="tel" />
       <label className="block sm:col-span-2"><span className="mb-1.5 block text-sm font-medium">{l.note}</span><textarea name="note" rows={3} className={input} /></label>
       <input name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
-      {state && !state.ok && <p className="text-sm font-medium text-brand sm:col-span-2">{l.err}</p>}
+      {state && !state.ok && <p className="text-sm font-medium text-sky-700 sm:col-span-2">{l.err}</p>}
       <button disabled={pending} className="rounded-full bg-gradient-to-r from-neon-orange to-neon-pink px-6 py-3.5 font-semibold text-white shadow-lg shadow-neon-pink/25 transition hover:brightness-110 disabled:opacity-60 sm:col-span-2 sm:justify-self-start">{pending ? '…' : l.submit}</button>
     </form>
   );

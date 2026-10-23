@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Play } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
+import { Swoosh } from '@/components/Logo';
 import { asset, items, newsFilter, tr, type Item } from '@/lib/directus';
 import { Ticker } from '@/components/Ticker';
 import { Tabs } from '@/components/Tabs';
@@ -44,8 +45,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       {/* hero: 1 big + 4 side */}
       {lead && (
-        <section className="pattern-dots border-b border-navy-900/5 bg-slate-50/60 pb-8 pt-6">
-          <div className="container-x grid gap-5 lg:grid-cols-[1.7fr_1fr]">
+        <section className="pattern-dots relative overflow-hidden border-b border-navy-900/5 bg-sky-50/60 pb-8 pt-6">
+          <Swoosh className="pointer-events-none absolute -right-10 bottom-0 h-56 w-[60%] text-brand/[0.07]" />
+          <div className="container-x relative grid gap-5 lg:grid-cols-[1.7fr_1fr]">
             <NewsBig n={lead} locale={locale} size="lg" />
             <div className="grid content-between gap-4 border-t-[3px] border-brand bg-white p-4 shadow-sm">{side.map((n) => <NewsSide key={n.id} n={n} locale={locale} />)}</div>
           </div>

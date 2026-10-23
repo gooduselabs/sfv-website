@@ -35,10 +35,10 @@ export default async function About({ params }: { params: Promise<{ locale: stri
               {board.filter((b) => b.group === g).map((b, i) => (
                 <Reveal key={b.id} delay={i * 0.05}><div className="frost rounded-3xl p-5">
                   <div className="grid aspect-[4/3] place-items-center rounded-2xl bg-gradient-to-br from-ice-200 to-slate-100">
-                    {b.photo ? <img src={asset(b.photo, { w: 400 })!} alt={b.name} className="h-full w-full rounded-2xl object-cover" /> : <span className="font-display text-4xl font-bold text-brand">{initials(b.name)}</span>}
+                    {b.photo ? <img src={asset(b.photo, { w: 400 })!} alt={b.name} className="h-full w-full rounded-2xl object-cover" /> : <span className="font-display text-4xl font-bold text-sky-700">{initials(b.name)}</span>}
                   </div>
                   <div className="mt-4 flex items-start justify-between gap-2"><p className="font-display font-semibold">{b.name}</p><DemoBadge show={b.demo} /></div>
-                  <p className="text-sm text-brand">{tr(b, locale).position}</p>
+                  <p className="text-sm text-sky-700">{tr(b, locale).position}</p>
                 </div></Reveal>
               ))}
             </div>

@@ -39,9 +39,9 @@ export default async function Competition({ params }: P) {
             <div className="space-y-6">
               {Object.entries(byDay).map(([day, evs]) => (
                 <div key={day}>
-                  <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-brand">{fmtDate(day, locale, { weekday: 'long', day: '2-digit', month: '2-digit' })}</p>
+                  <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-sky-700">{fmtDate(day, locale, { weekday: 'long', day: '2-digit', month: '2-digit' })}</p>
                   <div className="divide-y divide-navy-900/5 overflow-hidden rounded-2xl bg-white ring-1 ring-navy-900/5">
-                    {evs.map((e) => <div key={e.id} className="flex items-center gap-4 px-4 py-3 text-sm"><span className="w-14 font-mono text-navy-800/60">{fmtDate(e.scheduled_at, locale, { hour: '2-digit', minute: '2-digit' })}</span><span className="flex-1 font-medium">{tr(e, locale).name}</span><span className="tag bg-slate-100 text-brand">{e.age_group}</span></div>)}
+                    {evs.map((e) => <div key={e.id} className="flex items-center gap-4 px-4 py-3 text-sm"><span className="w-14 font-mono text-navy-800/60">{fmtDate(e.scheduled_at, locale, { hour: '2-digit', minute: '2-digit' })}</span><span className="flex-1 font-medium">{tr(e, locale).name}</span><span className="tag bg-slate-100 text-sky-700">{e.age_group}</span></div>)}
                   </div>
                 </div>
               ))}
@@ -62,9 +62,9 @@ export default async function Competition({ params }: P) {
                 <div className="overflow-x-auto rounded-2xl bg-white ring-1 ring-navy-900/5"><table className="w-full min-w-[520px] text-sm">
                   <thead className={`text-left text-xs uppercase tracking-wider ${area === 'roller' ? 'bg-navy-950 text-white/80' : 'bg-navy-900 text-white/80'}`}><tr><th className="px-4 py-3">{t('rank')}</th><th className="px-4 py-3">{t('athlete')}</th><th className="px-4 py-3">{tm('club')}</th><th className="px-4 py-3 text-right">{t('mark')}</th><th className="px-4 py-3 text-right">{t('points')}</th></tr></thead>
                   <tbody>{e.results.map((r: Item) => (
-                    <tr key={r.id} className="border-t border-navy-900/5 hover:bg-brand-50">
+                    <tr key={r.id} className="border-t border-navy-900/5 hover:bg-sky-50">
                       <td className="px-4 py-2.5"><span className={`grid h-7 w-7 place-items-center rounded-full text-xs font-bold ${r.rank === 1 ? 'bg-amber-300' : r.rank === 2 ? 'bg-slate-200' : r.rank === 3 ? 'bg-orange-200' : 'bg-slate-100'}`}>{r.rank}</span></td>
-                      <td className="px-4 py-2.5 font-medium">{r.athlete ? <Link className="hover:text-brand" href={`/athletes/${r.athlete.slug}`}>{r.athlete.full_name}</Link> : '-'}</td>
+                      <td className="px-4 py-2.5 font-medium">{r.athlete ? <Link className="hover:text-sky-700" href={`/athletes/${r.athlete.slug}`}>{r.athlete.full_name}</Link> : '-'}</td>
                       <td className="px-4 py-2.5 text-navy-800/60">{r.athlete?.club?.name}</td>
                       <td className="px-4 py-2.5 text-right font-mono tabular-nums">{r.result_text}</td>
                       <td className="px-4 py-2.5 text-right">{r.points}</td>
@@ -76,7 +76,7 @@ export default async function Competition({ params }: P) {
           </section>
         </div>
         <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
-          {c.regulations_file && <a href={fileUrl(c.regulations_file)!} className="flex items-center gap-3 rounded-3xl bg-white p-5 ring-1 ring-navy-900/5 hover:ring-brand"><FileText className="text-brand" /><span className="flex-1 font-semibold">{t('regulations')}</span><Download size={18} /></a>}
+          {c.regulations_file && <a href={fileUrl(c.regulations_file)!} className="flex items-center gap-3 rounded-3xl bg-white p-5 ring-1 ring-navy-900/5 hover:ring-brand"><FileText className="text-sky-700" /><span className="flex-1 font-semibold">{t('regulations')}</span><Download size={18} /></a>}
           {c.status === 'registration_open' && (
             <div className="rounded-3xl bg-gradient-to-br from-neon-orange to-neon-pink p-6 text-white">
               <p className="text-xs font-semibold uppercase tracking-widest opacity-80">{t('regWindow')}</p>
@@ -84,7 +84,7 @@ export default async function Competition({ params }: P) {
               <Link href={`/register?competition=${c.slug}`} className="mt-4 inline-flex rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-navy-950">{t('register')}</Link>
             </div>
           )}
-          <div className="rounded-3xl bg-white p-5 text-sm ring-1 ring-navy-900/5"><p className="font-semibold">{tm('ageGroup')}</p><div className="mt-2 flex flex-wrap gap-1.5">{(c.age_groups ?? []).map((g: string) => <span key={g} className="tag bg-slate-100 text-brand">{g}</span>)}</div><p className="mt-4 text-navy-800/60">{events.length} {t('events')}</p></div>
+          <div className="rounded-3xl bg-white p-5 text-sm ring-1 ring-navy-900/5"><p className="font-semibold">{tm('ageGroup')}</p><div className="mt-2 flex flex-wrap gap-1.5">{(c.age_groups ?? []).map((g: string) => <span key={g} className="tag bg-slate-100 text-sky-700">{g}</span>)}</div><p className="mt-4 text-navy-800/60">{events.length} {t('events')}</p></div>
         </aside>
       </div>
     </>

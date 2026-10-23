@@ -4,18 +4,19 @@ import { CalendarDays, ChevronRight, Download, FileText, MapPin } from 'lucide-r
 import { Link } from '@/i18n/navigation';
 import { asset, fileUrl, fmtDate, items, newsFilter, tr, type Item } from '@/lib/directus';
 import { DemoBadge } from './Demo';
+import { Star } from './Logo';
 
 export const NEWS_FIELDS = ['id', 'slug', 'cover', 'publish_date', 'demo', 'views', 'author', 'is_announcement', 'translations.*', 'category.slug', 'category.translations.*'];
 const ROLLER = ['roller'];
 export function CatTag({ n, locale }: { n: Item; locale: string }) {
   const slug = n.category?.slug;
-  const cls = ROLLER.includes(slug) ? 'text-neon-orange' : slug === 'truot-bang' ? 'text-ice-600' : 'text-brand';
+  const cls = ROLLER.includes(slug) ? 'text-neon-orange' : slug === 'truot-bang' ? 'text-ice-600' : slug === 'thong-bao' ? 'text-brand' : 'text-sky-700';
   return <Link href={`/news?category=${slug}`} className={`text-[11px] font-extrabold uppercase tracking-wider ${cls} hover:underline`}>{tr(n.category, locale).name}</Link>;
 }
 /** Solid label for use on top of images. */
 export function CatBadge({ n, locale }: { n: Item; locale: string }) {
   const slug = n.category?.slug;
-  const cls = ROLLER.includes(slug) ? 'bg-neon-orange' : slug === 'truot-bang' ? 'bg-ice-600' : 'bg-brand';
+  const cls = ROLLER.includes(slug) ? 'bg-neon-orange' : slug === 'truot-bang' ? 'bg-ice-600' : slug === 'thong-bao' ? 'bg-brand' : 'bg-sky-700';
   return <Link href={`/news?category=${slug}`} className={`inline-block px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white ${cls}`}>{tr(n.category, locale).name}</Link>;
 }
 export function Meta({ n, locale }: { n: Item; locale: string }) {
@@ -51,7 +52,7 @@ export function NewsSide({ n, locale }: { n: Item; locale: string }) {
       <Thumb n={n} w={320} className="aspect-[16/10]" />
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-x-2"><CatTag n={n} locale={locale} /><Meta n={n} locale={locale} /></div>
-        <h4 className="mt-1 line-clamp-3 text-[15px] font-semibold leading-snug text-navy-950 group-hover:text-brand"><Link href={`/news/${n.slug}`}>{tr(n, locale).title}</Link></h4>
+        <h4 className="mt-1 line-clamp-3 text-[15px] font-semibold leading-snug text-navy-950 group-hover:text-sky-700"><Link href={`/news/${n.slug}`}>{tr(n, locale).title}</Link></h4>
       </div>
     </article>
   );
@@ -61,7 +62,7 @@ export function NewsCardV({ n, locale }: { n: Item; locale: string }) {
     <article className="group">
       <Thumb n={n} w={480} className="aspect-[16/10]" />
       <div className="mt-2 flex items-center gap-2"><CatTag n={n} locale={locale} /><Meta n={n} locale={locale} /></div>
-      <h4 className="mt-1.5 line-clamp-3 text-[15px] font-bold leading-snug text-navy-950 transition group-hover:text-brand"><Link href={`/news/${n.slug}`}>{tr(n, locale).title}</Link></h4>
+      <h4 className="mt-1.5 line-clamp-3 text-[15px] font-bold leading-snug text-navy-950 transition group-hover:text-sky-700"><Link href={`/news/${n.slug}`}>{tr(n, locale).title}</Link></h4>
     </article>
   );
 }
@@ -72,7 +73,7 @@ export function NewsRow({ n, locale }: { n: Item; locale: string }) {
       <Thumb n={n} w={480} className="aspect-[16/10]" />
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-x-3"><CatTag n={n} locale={locale} /><Meta n={n} locale={locale} /></div>
-        <h3 className="mt-1 text-base font-bold leading-snug group-hover:text-brand sm:text-lg"><Link href={`/news/${n.slug}`}>{t.title}</Link></h3>
+        <h3 className="mt-1 text-base font-bold leading-snug group-hover:text-sky-700 sm:text-lg"><Link href={`/news/${n.slug}`}>{t.title}</Link></h3>
         <p className="mt-1.5 line-clamp-2 hidden text-sm text-navy-800/70 sm:block">{t.excerpt}</p>
       </div>
     </article>
@@ -81,9 +82,9 @@ export function NewsRow({ n, locale }: { n: Item; locale: string }) {
 export function TitleLink({ n, locale, idx }: { n: Item; locale: string; idx?: number }) {
   return (
     <li className="flex gap-3 border-b border-dashed border-navy-900/15 py-2.5 last:border-0">
-      {idx !== undefined && <span className="w-6 shrink-0 text-2xl font-black italic leading-none text-brand/80">{idx + 1}</span>}
+      {idx !== undefined && <span className="w-6 shrink-0 text-2xl font-black italic leading-none text-brand">{idx + 1}</span>}
       <div className="min-w-0">
-        <Link href={`/news/${n.slug}`} className="line-clamp-2 text-[14px] font-medium leading-snug hover:text-brand">{tr(n, locale).title}</Link>
+        <Link href={`/news/${n.slug}`} className="line-clamp-2 text-[14px] font-medium leading-snug hover:text-sky-700">{tr(n, locale).title}</Link>
         <Meta n={n} locale={locale} />
       </div>
     </li>
@@ -91,20 +92,21 @@ export function TitleLink({ n, locale, idx }: { n: Item; locale: string; idx?: n
 }
 export function BlockTitle({ title, href, more, accent = 'ice' }: { title: string; href?: string; more?: string; accent?: 'ice' | 'roller' }) {
   const c = accent === 'roller' ? 'bg-neon-orange' : 'bg-brand';
+  const bar = accent === 'roller' ? 'bg-neon-orange' : 'bg-sky';
   return (
     <div className="relative mb-5 flex items-end justify-between border-b-[3px] border-navy-900/10">
-      <h2 className="relative -mb-[3px] flex items-center gap-2.5 pb-2 text-[17px] font-extrabold uppercase tracking-wide text-navy-950 sm:text-[19px]">
-        <span className={`inline-block h-5 w-1.5 ${c}`} />{title}
+      <h2 className="relative -mb-[3px] flex items-center gap-2.5 pb-2 text-[17px] font-extrabold uppercase tracking-wide text-sky-800 sm:text-[19px]">
+        <span className={`inline-block h-5 w-1.5 ${bar}`} />{title}
         <span className={`absolute inset-x-0 bottom-0 h-[3px] ${c}`} />
       </h2>
-      {href && <Link href={href} className="mb-2 inline-flex items-center gap-0.5 text-[13px] font-bold text-navy-800/70 transition hover:text-brand">{more}<ChevronRight size={15} /></Link>}
+      {href && <Link href={href} className="mb-2 inline-flex items-center gap-0.5 text-[13px] font-bold text-navy-800/70 transition hover:text-sky-700">{more}<ChevronRight size={15} /></Link>}
     </div>
   );
 }
 export function Widget({ title, children, href, more }: { title: string; children: React.ReactNode; href?: string; more?: string }) {
   return (
     <section className="overflow-hidden border border-navy-900/10 bg-white shadow-[0_1px_0_rgba(7,19,40,.04)]">
-      <h3 className="flex items-center justify-between bg-brand px-4 py-2.5 text-[14px] font-extrabold uppercase tracking-wide text-white"><span className="flex items-center gap-2"><span className="h-3.5 w-1 bg-gold" />{title}</span>{href && <Link href={href} className="text-[12px] font-semibold normal-case text-white/85 hover:text-white">{more} ›</Link>}</h3>
+      <h3 className="flex items-center justify-between border-b-[3px] border-brand bg-sky-700 px-4 py-2.5 text-[14px] font-extrabold uppercase tracking-wide text-white"><span className="flex items-center gap-2"><Star className="h-3.5 w-3.5 text-gold" />{title}</span>{href && <Link href={href} className="text-[12px] font-semibold normal-case text-white/85 hover:text-white">{more} ›</Link>}</h3>
       <div className="px-4 py-2">{children}</div>
     </section>
   );
@@ -137,7 +139,7 @@ export async function Sidebar({ show = ['fixtures', 'results', 'announcements', 
                   <span className={`h-1 w-full ${c.discipline?.area === 'roller' ? 'bg-neon-orange' : 'bg-ice-500'}`} />
                 </div>
                 <div className="min-w-0">
-                  <Link href={`/competitions/${c.slug}`} className="line-clamp-2 text-[14px] font-semibold leading-snug hover:text-brand">{tr(c, locale).name}</Link>
+                  <Link href={`/competitions/${c.slug}`} className="line-clamp-2 text-[14px] font-semibold leading-snug hover:text-sky-700">{tr(c, locale).name}</Link>
                   <p className="mt-0.5 flex items-center gap-1 text-xs text-navy-800/55"><MapPin size={12} />{c.city} · {tc(c.status)}</p>
                 </div>
               </li>
@@ -147,7 +149,7 @@ export async function Sidebar({ show = ['fixtures', 'results', 'announcements', 
       )}
       {show.includes('results') && comp && (
         <Widget title={t('latestResults')} href={`/competitions/${comp.slug}#results`} more={t('more')}>
-          <p className="pt-1 text-[13px] font-semibold text-brand">{tr(comp, locale).name}</p>
+          <p className="pt-1 text-[13px] font-semibold text-sky-700">{tr(comp, locale).name}</p>
           {(comp.events ?? []).filter((e: Item) => e.results?.length).map((e: Item) => (
             <div key={e.id} className="border-b border-navy-900/10 py-2 last:border-0">
               <p className="text-[13px] font-bold">{tr(e, locale).name}</p>
@@ -160,7 +162,7 @@ export async function Sidebar({ show = ['fixtures', 'results', 'announcements', 
       {show.includes('announcements') && <Widget title={t('announcements')} href="/news?category=thong-bao" more={t('more')}><ul>{ann.map((n) => <TitleLink key={n.id} n={n} locale={locale} />)}</ul></Widget>}
       {show.includes('documents') && (
         <Widget title={t('documents')} href="/documents" more={t('more')}>
-          <ul className="divide-y divide-navy-900/10">{docs.map((d, i) => <li key={i}><a href={fileUrl(d.file) ?? '#'} className="flex items-start gap-2 py-2.5 text-[14px] hover:text-brand"><FileText size={16} className="mt-0.5 shrink-0 text-brand" /><span className="flex-1">{tr(d, locale).title}</span><Download size={14} className="mt-1 shrink-0 opacity-40" /></a></li>)}</ul>
+          <ul className="divide-y divide-navy-900/10">{docs.map((d, i) => <li key={i}><a href={fileUrl(d.file) ?? '#'} className="flex items-start gap-2 py-2.5 text-[14px] hover:text-sky-700"><FileText size={16} className="mt-0.5 shrink-0 text-sky-700" /><span className="flex-1">{tr(d, locale).title}</span><Download size={14} className="mt-1 shrink-0 opacity-40" /></a></li>)}</ul>
         </Widget>
       )}
     </aside>
@@ -169,7 +171,7 @@ export async function Sidebar({ show = ['fixtures', 'results', 'announcements', 
 export function Breadcrumb({ items: list }: { items: { label: string; href?: string }[] }) {
   return (
     <nav aria-label="Breadcrumb" className="text-[13px] text-navy-800/60">
-      {list.map((b, i) => <span key={i}>{i > 0 && <span className="mx-1.5">›</span>}{b.href ? <Link href={b.href} className="hover:text-brand">{b.label}</Link> : <span className="text-navy-900">{b.label}</span>}</span>)}
+      {list.map((b, i) => <span key={i}>{i > 0 && <span className="mx-1.5">›</span>}{b.href ? <Link href={b.href} className="hover:text-sky-700">{b.label}</Link> : <span className="text-navy-900">{b.label}</span>}</span>)}
     </nav>
   );
 }

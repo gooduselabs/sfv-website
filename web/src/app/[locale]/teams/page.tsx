@@ -18,7 +18,7 @@ export default async function Teams({ params }: { params: Promise<{ locale: stri
           const roller = tm.discipline?.area === 'roller';
           return (
             <Reveal key={tm.id} delay={i * 0.05}><div className={`h-full overflow-hidden rounded-[2rem] p-6 sm:p-8 ${roller ? 'bg-roller text-white' : 'bg-white ring-1 ring-navy-900/5'}`}>
-              <div className="flex flex-wrap gap-2"><span className={`tag ${roller ? 'bg-white/10' : 'bg-slate-100 text-brand'}`}>{tr(tm.discipline, locale).name}</span><span className="tag bg-amber-300 text-amber-950">{tm.category}</span></div>
+              <div className="flex flex-wrap gap-2"><span className={`tag ${roller ? 'bg-white/10' : 'bg-slate-100 text-sky-700'}`}>{tr(tm.discipline, locale).name}</span><span className="tag bg-amber-300 text-amber-950">{tm.category}</span></div>
               <h2 className="font-display mt-4 text-2xl font-bold">{tr(tm, locale).name}</h2>
               <p className={`mt-1 text-sm ${roller ? 'text-white/60' : 'text-navy-800/60'}`}>{t('season')} {tm.season} · {t('coach')}: {tm.coach}</p>
               <p className={`mt-2 text-sm ${roller ? 'text-white/50' : 'text-navy-800/50'}`}>{tr(tm, locale).description}</p>

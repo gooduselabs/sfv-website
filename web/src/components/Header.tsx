@@ -5,7 +5,7 @@ import { ChevronDown, Home, Mail, Menu, Phone, Search, X } from 'lucide-react';
 import { Facebook, Youtube } from './Social';
 import { Link, usePathname } from '@/i18n/navigation';
 import { MENU } from '@/lib/nav';
-import { LogoMark } from './Logo';
+import { LogoMark, Star, Swoosh } from './Logo';
 
 export function Header({ email, phone, facebook, youtube }: { email?: string; phone?: string; facebook?: string; youtube?: string }) {
   const t = useTranslations('menu');
@@ -23,7 +23,7 @@ export function Header({ email, phone, facebook, youtube }: { email?: string; ph
   return (
     <>
       {/* top bar */}
-      <div className="hidden bg-navy-950 text-[12.5px] text-white/75 md:block">
+      <div className="hidden bg-sky-700 text-[12.5px] text-white/85 md:block">
         <div className="container-x flex h-9 items-center justify-between gap-4">
           <span className="capitalize" suppressHydrationWarning>{today}</span>
           <div className="flex items-center gap-4">
@@ -40,13 +40,15 @@ export function Header({ email, phone, facebook, youtube }: { email?: string; ph
       {/* brand banner */}
       <div className="relative overflow-hidden border-b border-navy-900/10 bg-white">
         <div aria-hidden className="pattern-dots pointer-events-none absolute inset-y-0 right-0 w-1/2 [mask-image:linear-gradient(to_left,black,transparent)]" />
-        <div aria-hidden className="pointer-events-none absolute -right-10 top-1/2 hidden h-40 w-40 -translate-y-1/2 rotate-12 text-brand/[0.06] md:block"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.6 7-6.2-3.8-6.2 3.8 1.6-7L2 9.5l7.1-.6z"/></svg></div>
+        <Swoosh className="pointer-events-none absolute -bottom-2 right-0 hidden h-24 w-[46%] text-brand/[0.08] md:block" />
+        <div aria-hidden className="pointer-events-none absolute -right-10 top-1/2 hidden h-40 w-40 -translate-y-1/2 rotate-12 text-gold/[0.12] md:block"><Star className="h-full w-full" /></div>
         <div className="container-x relative flex items-center justify-between gap-4 py-3 md:py-5">
           <Link href="/" className="flex items-center gap-3 md:gap-4" aria-label="SFV">
-            <LogoMark className="h-12 w-12 shrink-0 drop-shadow md:h-[84px] md:w-[84px]" />
+            <LogoMark className="h-11 w-auto shrink-0 md:h-[76px]" />
+            <span className="hidden h-14 w-px bg-navy-900/10 md:block" />
             <span className="leading-tight">
-              <span className="block text-[13px] font-extrabold uppercase tracking-wide text-brand sm:text-base md:text-[26px]">{tp('fullName')}</span>
-              <span className="block mt-0.5 text-[11px] font-bold uppercase tracking-[0.22em] text-navy-800 md:text-[14px]">{tp('fullNameAlt')} · SFV</span>
+              <span className="block text-[13px] font-extrabold uppercase tracking-wide text-sky-800 sm:text-base md:text-[25px]">{tp('fullName')}</span>
+              <span className="block mt-1 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-brand md:text-[13.5px]"><Star className="h-3.5 w-3.5 text-gold drop-shadow-[0_0_1px_rgba(218,37,29,.9)]" />{tp('fullNameAlt')} · SFV</span>
             </span>
           </Link>
           <form action={searchAction} className="hidden items-center rounded-full border border-navy-900/15 bg-white pl-4 focus-within:border-brand xl:flex">
@@ -57,18 +59,18 @@ export function Header({ email, phone, facebook, youtube }: { email?: string; ph
         </div>
       </div>
       {/* main menu (sticky) */}
-      <nav className={`sticky top-0 z-50 hidden border-b-[3px] border-navy-900 bg-brand text-white xl:block ${stuck ? 'shadow-lg shadow-navy-950/30' : ''}`} aria-label="Main">
+      <nav className={`sticky top-0 z-50 hidden border-b-[3px] border-gold bg-brand text-white xl:block ${stuck ? 'shadow-lg shadow-navy-950/30' : ''}`} aria-label="Main">
         <div className="container-x flex items-stretch justify-between">
-          {stuck && <Link href="/" className="mr-2 flex items-center pr-2" aria-label="SFV"><LogoMark className="h-8 w-8" /></Link>}
-          <Link href="/" aria-label={t('home')} className={`flex items-center px-3 ${pathname === '/' ? 'bg-brand-800' : 'hover:bg-brand-700'}`}><Home size={17} /></Link>
+          {stuck && <Link href="/" className="mr-2 flex items-center pr-2" aria-label="SFV"><span className="rounded bg-white px-1.5 py-1"><LogoMark className="h-6 w-auto" /></span></Link>}
+          <Link href="/" aria-label={t('home')} className={`flex items-center px-3 ${pathname === '/' ? 'bg-brand-700 shadow-[inset_0_-3px_0_#ffdd00]' : 'hover:bg-brand-700'}`}><Home size={17} /></Link>
           {MENU.map((m, i) => (
             <div key={m.key} className="group relative">
-              <Link href={m.href} className={`flex h-12 items-center gap-1 whitespace-nowrap px-[7px] text-[11.5px] font-semibold uppercase xl:px-[9px] xl:text-[12.5px] transition-colors ${active(m.href) ? 'bg-brand-800' : 'group-hover:bg-brand-700'}`}>
+              <Link href={m.href} className={`flex h-12 items-center gap-1 whitespace-nowrap px-[7px] text-[11.5px] font-semibold uppercase xl:px-[9px] xl:text-[12.5px] transition-colors ${active(m.href) ? 'bg-brand-700 shadow-[inset_0_-3px_0_#ffdd00]' : 'group-hover:bg-brand-700 group-hover:shadow-[inset_0_-3px_0_#ffdd00]'}`}>
                 {t(m.key)}{m.children && <ChevronDown size={13} className="opacity-60" />}
               </Link>
               {m.children && (
-                <div className={`absolute ${i >= MENU.length - 4 ? "right-0" : "left-0"} top-full z-50 hidden min-w-56 group-hover:block border-t-[3px] border-navy-900 bg-white py-2 text-navy-900 shadow-xl`}>
-                  {m.children.map((c) => <Link key={c.key + c.href} href={c.href} className="block border-l-2 border-transparent px-4 py-2 text-sm font-medium transition hover:border-brand hover:bg-brand-50 hover:text-brand">{t(c.key)}</Link>)}
+                <div className={`absolute ${i >= MENU.length - 4 ? "right-0" : "left-0"} top-full z-50 hidden min-w-56 group-hover:block border-t-[3px] border-gold bg-white py-2 text-navy-900 shadow-xl`}>
+                  {m.children.map((c) => <Link key={c.key + c.href} href={c.href} className="block border-l-2 border-transparent px-4 py-2 text-sm font-medium transition hover:border-sky hover:bg-sky-50 hover:text-sky-700">{t(c.key)}</Link>)}
                 </div>
               )}
             </div>
@@ -76,7 +78,7 @@ export function Header({ email, phone, facebook, youtube }: { email?: string; ph
         </div>
       </nav>
       {/* mobile sticky bar */}
-      <div className={`sticky top-0 z-40 border-b-2 border-navy-900 bg-brand xl:hidden ${stuck ? 'shadow-lg' : ''}`}>
+      <div className={`sticky top-0 z-40 border-b-2 border-gold bg-brand xl:hidden ${stuck ? 'shadow-lg' : ''}`}>
         <div className="container-x flex h-10 items-center gap-4 overflow-x-auto text-[13px] font-semibold uppercase text-white [scrollbar-width:none]">
           {MENU.slice(0, 6).map((m) => <Link key={m.key} href={m.href} className="whitespace-nowrap">{t(m.key)}</Link>)}
         </div>
@@ -86,7 +88,7 @@ export function Header({ email, phone, facebook, youtube }: { email?: string; ph
         <div className="fixed inset-0 z-[60] xl:hidden" role="dialog" aria-modal="true">
           <button aria-label="Close" className="absolute inset-0 bg-navy-950/60" onClick={() => setOpen(false)} />
           <div className="absolute inset-y-0 right-0 flex w-[86%] max-w-sm flex-col overflow-y-auto bg-white shadow-2xl">
-            <div className="flex items-center justify-between bg-navy-900 px-4 py-3 text-white"><span className="font-bold">SFV</span><button onClick={() => setOpen(false)} aria-label="Close"><X /></button></div>
+            <div className="flex items-center justify-between border-b-[3px] border-brand bg-white px-4 py-3"><LogoMark className="h-10 w-auto" /><button onClick={() => setOpen(false)} aria-label="Close" className="text-navy-900"><X /></button></div>
             <form action={searchAction} className="flex gap-2 border-b p-3"><input name="q" placeholder="Tìm kiếm…" className="w-full rounded-lg bg-slate-50 px-3 py-2 text-sm outline-none" /><button className="rounded-lg bg-navy-900 px-3 text-white"><Search size={16} /></button></form>
             <Link href="/" className="border-b px-4 py-3 font-semibold">{t('home')}</Link>
             {MENU.map((m) => (

@@ -1,14 +1,14 @@
 import { getLocale, getTranslations } from 'next-intl/server';
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { Globe, Mail, MapPin, Phone } from 'lucide-react';
 import { Facebook, Youtube } from './Social';
 import { Link } from '@/i18n/navigation';
 import { items, single, tr } from '@/lib/directus';
 import { MENU } from '@/lib/nav';
-import { LogoMark } from './Logo';
+import { LogoFull, Swoosh } from './Logo';
 
 export async function Footer() {
   const locale = await getLocale();
-  const [t, tp, tf, tc] = [await getTranslations('menu'), await getTranslations('portal'), await getTranslations('footer'), await getTranslations('common')];
+  const [t, tp, tf] = [await getTranslations('menu'), await getTranslations('portal'), await getTranslations('footer')];
   const [s, sponsors] = await Promise.all([single('site_settings', { fields: ['*', 'translations.*'] }), items('sponsors', { fields: ['name', 'url', 'tier'], sort: ['sort'] })]);
   const st = tr(s, locale);
   return (
@@ -21,17 +21,18 @@ export async function Footer() {
           </div>
         </div>
       </section>
-      <div className="relative border-t-4 border-brand bg-navy-900 text-white/80"><div aria-hidden className="pattern-lines pointer-events-none absolute inset-0" />
+      <div className="relative border-t-4 border-brand bg-navy-900 text-white/80"><div aria-hidden className="pattern-lines pointer-events-none absolute inset-0" /><Swoosh className="pointer-events-none absolute bottom-0 right-0 h-48 w-[55%] text-brand/15" />
         <div className="container-x relative grid gap-10 py-12 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>
-            <div className="flex items-center gap-3"><LogoMark className="h-14 w-14" /><div className="leading-tight"><p className="font-extrabold text-white">{tp('fullName')}</p><p className="text-xs uppercase tracking-widest text-gold">{tp('fullNameAlt')}</p></div></div>
+            <div><div className="inline-block rounded-lg bg-white p-3 shadow-lg"><LogoFull className="h-20 w-auto" /></div><div className="mt-4 leading-tight"><p className="font-extrabold text-white">{tp('fullName')}</p><p className="text-xs uppercase tracking-widest text-gold">{tp('fullNameAlt')}</p></div></div>
             <ul className="mt-5 space-y-2 text-sm">
               <li className="flex gap-2"><MapPin size={16} className="mt-0.5 shrink-0 text-gold" />{s?.address}</li>
               <li className="flex gap-2"><Phone size={16} className="mt-0.5 shrink-0 text-gold" />{s?.phone}</li>
-              <li className="flex gap-2"><Mail size={16} className="mt-0.5 shrink-0 text-gold" />{s?.email}</li>
+              <li className="flex gap-2"><Mail size={16} className="mt-0.5 shrink-0 text-gold" /><a href={`mailto:${s?.email}`} className="hover:text-white">{s?.email}</a></li>
+              {s?.website && <li className="flex gap-2"><Globe size={16} className="mt-0.5 shrink-0 text-gold" /><a href={s.website} target="_blank" rel="noopener noreferrer" className="hover:text-white">{String(s.website).replace(/^https?:\/\//, '')}</a></li>}
             </ul>
-            <div className="mt-4 flex gap-2">{[[Facebook, s?.facebook], [Youtube, s?.youtube]].map(([I, h], i) => { const Icon = I as typeof Facebook; return <a key={i} href={String(h)} target="_blank" rel="noopener noreferrer" className="grid h-9 w-9 place-items-center rounded-full bg-white/10 hover:bg-brand"><Icon size={16} /></a>; })}</div>
-            <p className="mt-4 text-xs text-amber-200/80">{tp('demoFooter')} {st.footer_text}</p>
+            <div className="mt-4 flex gap-2">{[[Facebook, s?.facebook], [Youtube, s?.youtube]].map(([I, h], i) => { const Icon = I as typeof Facebook; return <a key={i} href={String(h)} target="_blank" rel="noopener noreferrer" className="grid h-9 w-9 place-items-center rounded-full bg-white/10 hover:bg-sky"><Icon size={16} /></a>; })}</div>
+            <p className="mt-4 text-xs text-amber-200/80">{st.footer_text}</p>
           </div>
           {[MENU.slice(0, 4), MENU.slice(4, 8), MENU.slice(8)].map((col, i) => (
             <div key={i}><ul className="space-y-4 text-sm">{col.map((m) => (
@@ -40,7 +41,7 @@ export async function Footer() {
               </li>))}</ul></div>
           ))}
         </div>
-        <div className="relative bg-navy-950"><div className="container-x flex flex-col gap-1 py-4 text-xs text-white/50 sm:flex-row sm:justify-between"><span>© {new Date().getFullYear()} {tf('rights')} (SFV). {tc('logoPlaceholder')}.</span><span>{tf('built')}</span></div></div>
+        <div className="relative bg-navy-950"><div className="container-x flex flex-col gap-1 py-4 text-xs text-white/50 sm:flex-row sm:justify-between"><span>© {new Date().getFullYear()} {tf('rights')} (SFV).</span><span>{tf('built')}</span></div></div>
       </div>
     </footer>
   );

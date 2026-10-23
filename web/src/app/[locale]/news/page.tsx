@@ -34,9 +34,9 @@ export default async function News({ params, searchParams }: { params: Promise<{
           {!data.length && <p className="py-10 text-navy-800/50">{tm('noData')}</p>}
           {pages > 1 && (
             <nav className="mt-6 flex flex-wrap items-center gap-1.5" aria-label="Pagination">
-              {page > 1 && <Link href={href(page - 1)} className="rounded-sm border border-navy-900/15 px-3 py-1.5 text-sm hover:bg-brand-50">‹ {tp('prev')}</Link>}
-              {Array.from({ length: pages }, (_, i) => i + 1).map((p) => <Link key={p} href={href(p)} aria-current={p === page ? 'page' : undefined} className={`min-w-9 rounded-sm border px-3 py-1.5 text-center text-sm ${p === page ? 'border-navy-800 bg-navy-800 text-white' : 'border-navy-900/15 hover:bg-brand-50'}`}>{p}</Link>)}
-              {page < pages && <Link href={href(page + 1)} className="rounded-sm border border-navy-900/15 px-3 py-1.5 text-sm hover:bg-brand-50">{tp('next')} ›</Link>}
+              {page > 1 && <Link href={href(page - 1)} className="rounded-sm border border-navy-900/15 px-3 py-1.5 text-sm hover:bg-sky-50">‹ {tp('prev')}</Link>}
+              {Array.from({ length: pages }, (_, i) => i + 1).map((p) => <Link key={p} href={href(p)} aria-current={p === page ? 'page' : undefined} className={`min-w-9 rounded-sm border px-3 py-1.5 text-center text-sm ${p === page ? 'border-navy-800 bg-navy-800 text-white' : 'border-navy-900/15 hover:bg-sky-50'}`}>{p}</Link>)}
+              {page < pages && <Link href={href(page + 1)} className="rounded-sm border border-navy-900/15 px-3 py-1.5 text-sm hover:bg-sky-50">{tp('next')} ›</Link>}
             </nav>
           )}
         </div>

@@ -27,7 +27,7 @@ export default async function Search({ params, searchParams }: { params: Promise
         {term && !total && <p>{t('empty')}</p>}
         <div className="grid gap-6 md:grid-cols-2">
           {groups.filter((g) => g.list.length).map((g) => (
-            <div key={g.k} className="rounded-3xl bg-white p-6 ring-1 ring-navy-900/5"><h2 className="font-display mb-3 font-bold">{tn(g.k)}</h2><ul className="space-y-1.5">{g.list.map((x, i) => <li key={i}><Link href={x.href} className="text-brand hover:underline">{x.label}</Link></li>)}</ul></div>
+            <div key={g.k} className="rounded-3xl bg-white p-6 ring-1 ring-navy-900/5"><h2 className="font-display mb-3 font-bold">{tn(g.k)}</h2><ul className="space-y-1.5">{g.list.map((x, i) => <li key={i}><Link href={x.href} className="text-sky-700 hover:underline">{x.label}</Link></li>)}</ul></div>
           ))}
         </div>
       </section>
