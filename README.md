@@ -1,20 +1,35 @@
 # SFV Website – Liên đoàn Trượt băng và Roller Việt Nam
 
-Bản đầu tiên (v0.1) hệ thống website cho **SFV – Skating Federation of Vietnam**, do GoodUseLabs phát triển.
-Tham chiếu cấu trúc vff.org.vn nhưng có nhận diện riêng: *băng & chuyển động* – trắng băng / xanh lạnh / navy cho mảng **Băng**, cam–hồng neon cho mảng **Roller**.
+**Cổng thông tin chính thức (bản demo) cho SFV – Skating Federation of Vietnam**, phong cách cổng tin tức thể thao kiểu [vff.org.vn](https://vff.org.vn): dày tin, cập nhật nhanh, có lịch thi đấu, kết quả và bảng xếp hạng. Phát triển bởi [GoodUseLabs](https://gooduselabs.com).
 
-> ⚠️ **DỮ LIỆU DEMO.** Toàn bộ VĐV, kết quả, kỷ lục, CLB, ban chấp hành, nhà tài trợ, tin tức trong seed là **hư cấu** (trường `demo = true`, hiển thị nhãn “DEMO” trên web) – chỉ để kiểm thử giao diện và quy trình. Không được trình bày như dữ liệu thật. Ảnh minh họa là ảnh AI tạo. **Logo là bản tạm** chờ nhận diện chính thức. Danh sách bộ môn đang **chờ khách hàng xác nhận**.
+> *English:* A bilingual (VI/EN) news portal + competition management system for the Vietnam Skating & Roller Federation. Next.js 15 front-end, Directus 11 headless CMS on PostgreSQL, one-command Docker deployment. Includes rankings, CSV/Excel result import and role-based editing (Admin / Editor / Competition Organizer).
 
-## Tổng quan
-- **Web** (`web/`): Next.js 15 App Router, TypeScript, Tailwind CSS 4, framer-motion, next-intl (VI mặc định tại `/`, EN tại `/en`), MapLibre + OpenFreeMap cho bản đồ CLB. Font Be Vietnam Pro + Unbounded.
-- **CMS** (`cms/`): Directus 11.17 + PostgreSQL 17 – schema snapshot, script setup/seed, migration, extension endpoint `sfv-api` (bảng xếp hạng + import CSV/Excel).
-- **Docs** (`docs/`): kiến trúc, data model, phân quyền → [docs/kien-truc.md](docs/kien-truc.md).
-- **Tools** (`tools/`): script chụp màn hình bằng headless Chrome.
+![Trang chủ SFV](docs/screenshots/preview/home-desktop.jpg)
 
-### Trang
-Trang chủ (hero chuyển động, đếm ngược giải kế tiếp, kết quả mới nhất, tin, 2 cổng Băng/Roller, VĐV nổi bật, thư viện, nhà tài trợ, số liệu count-up) · Giới thiệu (lịch sử, BCH, các ban, thành viên) · Bộ môn (+ trang từng môn) · Giải đấu (lọc môn/trạng thái/lứa tuổi/tỉnh) + chi tiết (lịch, điều lệ, start list, bảng kết quả) · Kết quả & Xếp hạng · Kỷ lục quốc gia · VĐV + hồ sơ · Đội tuyển · CLB & bản đồ · Tin tức + chi tiết · Văn bản · Thư viện ảnh/video · Đăng ký dự giải · Liên hệ · Tìm kiếm · chuyển ngữ VI/EN.
+## Mục đích
+Liên đoàn cần một website chính thức thay cho việc chỉ đăng tin trên Facebook: nơi công bố **tin tức, thông báo, điều lệ, lịch thi đấu, kết quả và bảng xếp hạng** của các bộ môn trượt băng & roller; đồng thời cho phép **ban biên tập và ban tổ chức giải tự cập nhật** nội dung mà không cần lập trình viên.
 
-Hiệu ứng: vệt lưỡi trượt SVG vẽ theo scroll, kính mờ (frost glass), parallax, count-up, Ken Burns; tất cả tắt khi `prefers-reduced-motion`.
+## Tính năng chính
+- 📰 **Cổng tin kiểu VFF**: ticker tin nóng, tin nổi bật, tin mới, “Đọc nhiều nhất”, chuyên mục (Hoạt động, Thông báo, Trượt băng, Roller, Quốc tế, Đào tạo), tin hẹn giờ đăng.
+- 📥 **7 bài viết thật** nhập từ trang Facebook của SFV (script `cms/scripts/import-fb.mjs`, giữ ảnh gốc).
+- 🏆 **Giải đấu**: lịch, điều lệ, nội dung thi, start list, kết quả; lọc theo bộ môn / cấp độ / lứa tuổi / tỉnh.
+- 📊 **Kết quả & Xếp hạng**: bảng xếp hạng theo bộ môn, lứa tuổi, giới tính; **import kết quả từ CSV/Excel**.
+- 🧑‍🤝‍🧑 VĐV & hồ sơ, đội tuyển, CLB trên bản đồ (MapLibre), kỷ lục quốc gia, văn bản, thư viện ảnh/video, đăng ký dự giải.
+- 🌐 **Song ngữ VI/EN** (VI tại `/`, EN tại `/en`).
+- 🔐 **Phân quyền**: Administrator, Editor (biên tập tin), Competition Organizer (ban tổ chức giải).
+- 🎨 Nhận diện theo **logo SFV chính thức**: xanh logo, đỏ cờ, sao vàng; favicon/app icon/OG image.
+- 📱 Responsive desktop/mobile, ảnh WebP qua Directus `/assets`.
+- 🐳 **Docker Compose**: Postgres + Directus + init một lần (schema, roles, seed) + web.
+
+## Công nghệ
+| Lớp | Công nghệ |
+|---|---|
+| Web | Next.js 15 (App Router), TypeScript, Tailwind CSS 4, next-intl, framer-motion, MapLibre |
+| CMS | Directus 11.17, extension `sfv-api` (rankings + import CSV/Excel) |
+| DB | PostgreSQL 17 |
+| Triển khai | Docker Compose |
+
+> ⚠️ Ngoài các bài tin thật từ Facebook và thông tin liên hệ thật, phần lớn VĐV/kết quả/CLB/nhà tài trợ là **dữ liệu DEMO** (gắn nhãn “Demo”).
 
 ## Kiến trúc
 ```
@@ -80,14 +95,18 @@ Bảng xếp hạng: `GET /sfv/rankings?discipline=<slug>&age_group=U13&gender=F
 Form `/register` → server action → `registrations` (status `pending`). Ban tổ chức duyệt trong Admin (đổi `approved`) → VĐV xuất hiện ở **Start list** của trang giải.
 
 ## Ảnh chụp màn hình
-Thư mục `screens/` (desktop 1440px + mobile 390px, và màn hình Directus Admin). Tạo lại:
-```bash
-cd tools && npm install && WEB=http://localhost:3000 ADMIN_EMAIL=... ADMIN_PASSWORD=... node screenshots.mjs ../screens
-```
+Bấm vào ảnh để xem trang đầy đủ (desktop 1440px, mobile 390px @2x).
+
 | | |
 |---|---|
-| ![Home](screens/home-desktop.png) | ![Home mobile](screens/home-mobile.png) |
-| ![Giải đấu](screens/competition-detail-desktop.png) | ![Bản đồ CLB](screens/clubs-map-desktop.png) |
+| [![Trang chủ (desktop) – header logo SFV, menu đỏ, ticker tin nóng, tin nổi bật overlay, cột tin mới, “Đọc nhiều nhất”, lịch thi đấu sắp tới](docs/screenshots/preview/home-desktop.jpg)](docs/screenshots/home-desktop.jpg)<br>*Trang chủ (desktop) – header logo SFV, menu đỏ, ticker tin nóng, tin nổi bật overlay, cột tin mới, “Đọc nhiều nhất”, lịch thi đấu sắp tới* | [![Trang chủ (mobile) – menu hamburger, tin dạng thẻ dọc, tối ưu màn 390px](docs/screenshots/preview/home-mobile.jpg)](docs/screenshots/home-mobile.jpg)<br>*Trang chủ (mobile) – menu hamburger, tin dạng thẻ dọc, tối ưu màn 390px* |
+| [![Tin tức & Thông báo – lọc theo chuyên mục, danh sách tin có ảnh, phân trang, sidebar widget](docs/screenshots/preview/news-desktop.jpg)](docs/screenshots/news-desktop.jpg)<br>*Tin tức & Thông báo – lọc theo chuyên mục, danh sách tin có ảnh, phân trang, sidebar widget* | [![Danh sách tin trên điện thoại](docs/screenshots/preview/news-mobile.jpg)](docs/screenshots/news-mobile.jpg)<br>*Danh sách tin trên điện thoại* |
+| [![Chi tiết tin – bài thật nhập từ Facebook SFV (ảnh, nội dung, chia sẻ), tin liên quan](docs/screenshots/preview/news-detail-desktop.jpg)](docs/screenshots/news-detail-desktop.jpg)<br>*Chi tiết tin – bài thật nhập từ Facebook SFV (ảnh, nội dung, chia sẻ), tin liên quan* | [![Chi tiết tin trên mobile](docs/screenshots/preview/news-detail-mobile.jpg)](docs/screenshots/news-detail-mobile.jpg)<br>*Chi tiết tin trên mobile* |
+| [![Giải đấu – lọc bộ môn/cấp độ/lứa tuổi/tỉnh, khối ngày thi đấu, sắp diễn ra / đã kết thúc](docs/screenshots/preview/competitions-desktop.jpg)](docs/screenshots/competitions-desktop.jpg)<br>*Giải đấu – lọc bộ môn/cấp độ/lứa tuổi/tỉnh, khối ngày thi đấu, sắp diễn ra / đã kết thúc* | [![Lịch giải đấu trên mobile](docs/screenshots/preview/competitions-mobile.jpg)](docs/screenshots/competitions-mobile.jpg)<br>*Lịch giải đấu trên mobile* |
+| [![Liên hệ – địa chỉ, email, hotline, website, Facebook thật của Liên đoàn; footer & đối tác](docs/screenshots/preview/contact-desktop.jpg)](docs/screenshots/contact-desktop.jpg)<br>*Liên hệ – địa chỉ, email, hotline, website, Facebook thật của Liên đoàn; footer & đối tác* | [![Trang liên hệ trên mobile](docs/screenshots/preview/contact-mobile.jpg)](docs/screenshots/contact-mobile.jpg)<br>*Trang liên hệ trên mobile* |
+| [![Directus Admin – 3 vai trò: Administrator, Editor, Competition Organizer](docs/screenshots/preview/admin-roles.jpg)](docs/screenshots/admin-roles.jpg)<br>*Directus Admin – 3 vai trò: Administrator, Editor, Competition Organizer* | [![Directus Admin – quản lý giải đấu, nội dung thi, kết quả](docs/screenshots/preview/admin-competitions.jpg)](docs/screenshots/admin-competitions.jpg)<br>*Directus Admin – quản lý giải đấu, nội dung thi, kết quả* |
+
+Tạo lại ảnh: `cd tools && npm install && WEB=http://localhost:3000 ADMIN_EMAIL=... ADMIN_PASSWORD=... node screenshots.mjs ../screens`
 
 ## Hạn chế / việc tiếp theo
 - Directus 12 (bản mới nhất) giới hạn 25 collection khi không có license → dùng **Directus 11.17.4** (bản 11 mới nhất, BSL miễn phí cho tổ chức doanh thu < 5 triệu USD). Cân nhắc license nếu nâng cấp 12.
