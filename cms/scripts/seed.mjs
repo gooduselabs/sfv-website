@@ -8,6 +8,7 @@ const T = (vi, en) => [{ languages_code: VI, ...vi }, { languages_code: EN, ...e
 let seed = 7; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
 const pick = (a) => a[Math.floor(rnd() * a.length)];
 async function wipe(c) { const ids = (await api('GET', `/items/${c}?fields=${c === 'site_settings' ? 'id' : 'id'}&limit=-1`)) || []; const list = Array.isArray(ids) ? ids : [ids]; if (list.length && c !== 'site_settings') await api('DELETE', `/items/${c}`, list.map((x) => x.id)); }
+if (process.env.SEED_IF_EMPTY && ((await api('GET', '/items/news?limit=1&fields=id')) || []).length) { console.log('content exists — skip demo seed (unset SEED_IF_EMPTY to force)'); process.exit(0); }
 const create = async (c, items) => api('POST', `/items/${c}`, items);
 
 for (const c of ['registrations', 'results', 'national_team_members', 'national_teams', 'national_records', 'competition_events', 'competitions', 'athletes', 'clubs', 'news', 'news_categories', 'documents', 'galleries', 'sponsors', 'home_banners', 'board_members', 'departments', 'pages', 'disciplines']) await wipe(c);

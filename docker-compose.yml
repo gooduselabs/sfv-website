@@ -1,36 +1,39 @@
-# SFV — full stack: PostgreSQL + Directus 11 + init (schema/roles/seed) + Next.js web
-#   cp .env.example .env && docker compose up --build
-#   web http://localhost:3000 · admin http://localhost:8055/admin
+# SFV — PostgreSQL + Directus 11 + one-shot init (schema/roles/seed) + Next.js web
+#   cp .env.example .env  (set secrets + PUBLIC_HOST)  &&  docker compose up -d --build
+#   web http://<PUBLIC_HOST>:${WEB_PORT:-3000} · admin http://<PUBLIC_HOST>:${CMS_PORT:-8055}/admin
 services:
   db:
     image: postgres:17-alpine
-    environment: { POSTGRES_USER: sfv, POSTGRES_PASSWORD: "${DB_PASSWORD:-sfv}", POSTGRES_DB: sfv }
+    restart: unless-stopped
+    environment: { POSTGRES_USER: sfv, POSTGRES_PASSWORD: "${DB_PASSWORD:?set DB_PASSWORD}", POSTGRES_DB: sfv }
     volumes: [db:/var/lib/postgresql/data]
     healthcheck: { test: ["CMD-SHELL", "pg_isready -U sfv"], interval: 3s, retries: 30 }
   directus:
     image: directus/directus:11.17.4
+    restart: unless-stopped
     depends_on: { db: { condition: service_healthy } }
-    ports: ["8055:8055"]
+    ports: ["0.0.0.0:${CMS_PORT:-8055}:8055"]
     environment:
       SECRET: "${DIRECTUS_SECRET:?set DIRECTUS_SECRET in .env}"
-      PUBLIC_URL: http://localhost:8055
+      PUBLIC_URL: "http://${PUBLIC_HOST:-localhost}:${CMS_PORT:-8055}"
       DB_CLIENT: pg
       DB_HOST: db
       DB_PORT: 5432
       DB_DATABASE: sfv
       DB_USER: sfv
-      DB_PASSWORD: "${DB_PASSWORD:-sfv}"
+      DB_PASSWORD: "${DB_PASSWORD}"
       ADMIN_EMAIL: "${ADMIN_EMAIL:-admin@sfv.org.vn}"
       ADMIN_PASSWORD: "${ADMIN_PASSWORD:?set ADMIN_PASSWORD in .env}"
       CORS_ENABLED: "true"
-      CORS_ORIGIN: "http://localhost:3000"
+      CORS_ORIGIN: "true"
       MIGRATIONS_PATH: /directus/migrations
+      EXTENSIONS_AUTO_RELOAD: "false"
       TELEMETRY: "false"
     volumes:
       - uploads:/directus/uploads
       - ./cms/extensions:/directus/extensions
       - ./cms/migrations:/directus/migrations
-    healthcheck: { test: ["CMD-SHELL", "wget -qO- http://localhost:8055/server/ping || exit 1"], interval: 5s, retries: 30 }
+    healthcheck: { test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8055/server/ping || exit 1"], interval: 5s, retries: 60, start_period: 20s }
   cms-init:
     build: { context: ./cms, dockerfile: Dockerfile.init }
     depends_on: { directus: { condition: service_healthy } }
@@ -39,12 +42,15 @@ services:
       ADMIN_EMAIL: "${ADMIN_EMAIL:-admin@sfv.org.vn}"
       ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
       DEMO_USER_PASSWORD: "${DEMO_USER_PASSWORD:-}"
-      SKIP_SCHEMA: "1"   # schema via REST (setup-schema.mjs) below; snapshot apply needs DB env
+      SEED_IF_EMPTY: "1"   # demo seed only on an empty DB; never wipes edited content
     command: ["sh", "-c", "node scripts/setup-schema.mjs && SKIP_SCHEMA=1 sh scripts/init.sh"]
     restart: "no"
   web:
-    build: { context: ./web, args: { NEXT_PUBLIC_DIRECTUS_URL: http://localhost:8055, DIRECTUS_URL: http://directus:8055 } }
+    build:
+      context: ./web
+      args: { NEXT_PUBLIC_DIRECTUS_URL: "http://${PUBLIC_HOST:-localhost}:${CMS_PORT:-8055}" }
+    restart: unless-stopped
     depends_on: { cms-init: { condition: service_completed_successfully } }
-    environment: { DIRECTUS_URL: http://directus:8055, NEXT_PUBLIC_DIRECTUS_URL: http://localhost:8055 }
-    ports: ["3000:3000"]
+    environment: { DIRECTUS_URL: http://directus:8055 }
+    ports: ["0.0.0.0:${WEB_PORT:-3000}:3000"]
 volumes: { db: {}, uploads: {} }

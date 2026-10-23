@@ -1,3 +1,4 @@
+import { connection } from 'next/server';
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
@@ -22,6 +23,8 @@ export const viewport: Viewport = { themeColor: '#071328', width: 'device-width'
 export function generateStaticParams() { return routing.locales.map((locale) => ({ locale })); }
 
 export default async function LocaleLayout({ children, params }: { children: ReactNode; params: Promise<{ locale: string }> }) {
+  // Docker image is built before Directus exists: render on request (data cache still revalidates every 60s).
+  if (process.env.SFV_RUNTIME_RENDER) await connection();
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
